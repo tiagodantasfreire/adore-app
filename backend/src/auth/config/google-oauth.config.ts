@@ -1,4 +1,4 @@
-import { registerAs } from '@nestjs/config';
+import { registerAs } from '@nestjs/config'
 
 export default registerAs('googleOAuth', () => {
   return {
@@ -6,4 +6,4 @@ export default registerAs('googleOAuth', () => {
     clientSecret: process.env.GOOGLE_SECRET,
     callbackURL: process.env.GOOGLE_CALLBACK_URL,
   }
-});
+})

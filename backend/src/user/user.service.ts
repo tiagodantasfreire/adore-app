@@ -1,9 +1,8 @@
-
-import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
+import { Injectable } from '@nestjs/common'
+import { CreateUserDto } from './dto/create-user.dto'
 
 // This should be a real class/interface representing a user entity
-export type User = any;
+export type User = any
 
 @Injectable()
 export class UserService {
@@ -13,31 +12,29 @@ export class UserService {
       email: '1@adore.com',
       firstName: 'One',
       lastName: 'Test',
-      password: ''
+      password: '',
     },
     {
       id: 2,
       email: '2@adore.com',
       firstName: 'Two',
       lastName: 'Test',
-      password: ''
+      password: '',
     },
-  ];
+  ]
 
-  async create(user: CreateUserDto) {
+  create(user: CreateUserDto) {
     this.users.push(user)
 
     return this.users.find((u) => u.email === user.email)
   }
 
-  async findByEmail(email: string) {
-    return this.users.find((user) => (
-      user.email === email
-    ))
+  findByEmail(email: string) {
+    return this.users.find((user) => user.email === email)
   }
 
-  async updateHashedRefreshToken(userId: number, hashedRefreshToken: string) {
-    const currentUser = this.users.find((user) => user.id === userId);
-    return currentUser;
+  updateHashedRefreshToken(userId: number, hashedRefreshToken: string) {
+    const currentUser = this.users.find((user) => user.id === userId)
+    return currentUser
   }
 }
