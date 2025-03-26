@@ -13,7 +13,9 @@ export class UserService {
     const createdUser = this.prisma.user.create({
       data: {
         email: user.email,
-        name: user.firstName,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        avatarUrl: user.avatarUrl,
       },
     })
 
@@ -25,7 +27,6 @@ export class UserService {
   }
 
   updateHashedRefreshToken(userId: number, hashedRefreshToken: string) {
-    const currentUser = this.prisma.user.findUnique({ where: { id: userId } })
-    return currentUser
+    return this.prisma.user.findUnique({ where: { id: userId } })
   }
 }
