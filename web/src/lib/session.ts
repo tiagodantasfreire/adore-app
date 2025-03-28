@@ -4,12 +4,14 @@ import { cookies as nextCookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { jwtVerify, SignJWT } from 'jose'
 
+type User = {
+  id: string
+  firstName: string
+  lastName: string
+};
+
 export type Session = {
-  user: {
-    id: string;
-    firstName: string;
-    lastName: string;
-  };
+  user: User
   accessToken: string;
   refreshToken: string;
 };
@@ -43,6 +45,11 @@ export async function createSession(payload: Session) {
   })
 }
 
+export async function deleteSession() {
+  const cookies = await nextCookies()
+  cookies.delete('session')
+}
+
 export async function getSession() {
   const cookies = await nextCookies()
   const sessionCookie = cookies.get('session')?.value
@@ -61,6 +68,10 @@ export async function getSession() {
     return payload as Session
   } catch (err) {
     console.error('Failed to verify the session', err)
-    redirect('/auth/sigin')
+    redirect('/auth/sign-in')
   }
+}
+
+export async function goToLoginPage() {
+  redirect('/auth/sign-in')
 }
