@@ -26,7 +26,10 @@ export class UserService {
     return this.prisma.user.findUnique({ where: { email } })
   }
 
-  updateHashedRefreshToken(userId: number, hashedRefreshToken: string) {
-    return this.prisma.user.findUnique({ where: { id: userId } })
+  updateRefreshToken(userId: number, hashedRefreshToken: string) {
+    return this.prisma.user.update({
+      where: { id: userId },
+      data: { refreshToken: hashedRefreshToken },
+    })
   }
 }

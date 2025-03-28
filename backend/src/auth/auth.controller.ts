@@ -5,7 +5,11 @@ import { Request, Response } from 'express'
 import * as jwt from 'jsonwebtoken'
 
 interface AuthenticatedRequest extends Request {
-  user: { id: number }
+  user: {
+    id: number
+    firstName: string
+    lastName: string
+  }
 }
 
 @Controller('auth')
@@ -37,20 +41,17 @@ export class AuthController {
 
   @UseGuards(GoogleAuthGuard)
   @Get('google/callback')
-  googleCallback(@Req() req: AuthenticatedRequest, @Res() res: Response) {
-    const user = req.user
+  async googleCallback(@Req() req: AuthenticatedRequest, @Res() res: Response) {
+    const { id, firstName, lastName } = req.user
 
-    const token = jwt.sign(user, process.env.JWT_SECRET ?? '', {
-      expiresIn: '7d',
+    const { accessToken, refreshToken } = await this.authService.login({
+      firstName,
+      lastName,
+      userId: id,
     })
 
-    res.cookie('auth-token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production', // Use secure cookie in production
-      sameSite: 'strict', // Prevent CSRF attacks
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    })
-
-    res.redirect(`http://localhost:8080/`)
+    res.redirect(
+      `http://localhost:8080/api/auth/google/callback?accessToken=${accessToken}&refreshToken=${refreshToken}&userId=${id}&firstName=${firstName}&lastName=${lastName}`,
+    )
   }
 }
