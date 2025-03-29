@@ -12,6 +12,8 @@ interface AuthenticatedRequest extends Request {
   }
 }
 
+const jwtSecret = process.env.JWT_SECRET ?? ''
+
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -30,7 +32,7 @@ export class AuthController {
       throw new Error('Token missing from Authorization header')
     }
 
-    const user = jwt.verify(token, process.env.JWT_SECRET ?? '') // Verify token
+    const user = jwt.verify(token, jwtSecret) // Verify token
 
     return res.json(user)
   }
@@ -41,17 +43,19 @@ export class AuthController {
 
   @UseGuards(GoogleAuthGuard)
   @Get('google/callback')
-  async googleCallback(@Req() req: AuthenticatedRequest, @Res() res: Response) {
-    const { id, firstName, lastName } = req.user
+  googleCallback(@Req() req: AuthenticatedRequest, @Res() res: Response) {
+    const user = req.user
 
-    const { accessToken, refreshToken } = await this.authService.login({
-      firstName,
-      lastName,
-      userId: id,
+    const token = jwt.sign(user, jwtSecret, {
+      expiresIn: '7d',
     })
 
-    res.redirect(
-      `http://localhost:8080/api/auth/google/callback?accessToken=${accessToken}&refreshToken=${refreshToken}&userId=${id}&firstName=${firstName}&lastName=${lastName}`,
-    )
+    res.cookie('session', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production', // Use secure cookie in production
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    })
+
+    res.redirect('http://localhost:8080/home')
   }
 }

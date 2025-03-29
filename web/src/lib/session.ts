@@ -1,77 +1,37 @@
 'use server'
 
 import { cookies as nextCookies } from 'next/headers'
-import { redirect } from 'next/navigation'
-import { jwtVerify, SignJWT } from 'jose'
+import { User } from '@/types/user'
 
-type User = {
+type SessionUser = {
   id: string
   firstName: string
   lastName: string
 };
 
 export type Session = {
-  user: User
-  accessToken: string;
-  refreshToken: string;
+  user: SessionUser
+  accessToken: string
+  refreshToken: string
 };
-
-const secretKey = process.env.SESSION_SECRET_KEY!
-const encodedKey = new TextEncoder().encode(secretKey)
-
-export async function createSession(payload: Session) {
-  const expiredAt = new Date(
-    Date.now() + 7 * 24 * 60 * 60 * 1000
-  )
-
-  console.log(expiredAt)
-  
-  const session = await new SignJWT(payload)
-  .setProtectedHeader({ alg: 'HS256' })
-  .setIssuedAt()
-  .setExpirationTime('7d')
-  .sign(encodedKey)
-  
-  console.log(expiredAt)
-
-  const cookies = await nextCookies()
-
-  cookies.set('session', session, {
-    httpOnly: true,
-    secure: true,
-    expires: expiredAt,
-    sameSite: 'lax',
-    path: '/',
-  })
-}
 
 export async function deleteSession() {
   const cookies = await nextCookies()
   cookies.delete('session')
 }
 
-export async function getSession() {
+export async function getUser(): Promise<User | null> {
   const cookies = await nextCookies()
-  const sessionCookie = cookies.get('session')?.value
+  const token = cookies.get('session')?.value
 
-  if (!sessionCookie) return null
+  if (!token) return null
 
-  try {
-    const { payload } = await jwtVerify(
-      sessionCookie,
-      encodedKey,
-      {
-        algorithms: ['HS256'],
-      }
-    )
+  const res = await fetch('http://localhost:3000/auth/me', {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: 'no-store'
+  })
 
-    return payload as Session
-  } catch (err) {
-    console.error('Failed to verify the session', err)
-    redirect('/auth/sign-in')
-  }
-}
+  if (!res.ok) return null
 
-export async function goToLoginPage() {
-  redirect('/auth/sign-in')
+  return res.json()
 }

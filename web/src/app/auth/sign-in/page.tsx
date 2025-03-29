@@ -1,17 +1,16 @@
-import { getSession } from '@/lib/session'
-import Link from 'next/link'
+import { SignInGoogleButton } from '@/components/sign-in-google-button'
+import { getUser } from '@/lib/session'
 import { redirect } from 'next/navigation'
 
 export default async function SignIn() {
-  const session = await getSession()
+  const user = await getUser()
 
-  if (session) return redirect('/home')
+  if (user) return redirect('/home')
 
   return (
-    <div>
-      <Link href="http://localhost:3000/auth/google/login">
-        Sign In with Google
-      </Link>
+    <div className='flex flex-col gap-2 h-dvh items-center justify-center'>
+      <p>Seja bem vindo</p>
+      <SignInGoogleButton />
     </div>
   )
 }
