@@ -2,6 +2,7 @@
 
 import { cookies as nextCookies } from 'next/headers'
 import { User } from '@/types/user'
+import { env } from './env'
 
 type SessionUser = {
   id: string
@@ -26,7 +27,7 @@ export async function getUser(): Promise<User | null> {
 
   if (!token) return null
 
-  const res = await fetch('http://localhost:3000/auth/me', {
+  const res = await fetch(`${env.BACKEND_URL}/auth/me`, {
     headers: { Authorization: `Bearer ${token}` },
     cache: 'no-store'
   })

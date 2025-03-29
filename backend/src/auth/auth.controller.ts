@@ -56,6 +56,6 @@ export class AuthController {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     })
 
-    res.redirect('http://localhost:8080/home')
+    res.redirect(`${process.env.WEB_URL}/home`)
   }
 }

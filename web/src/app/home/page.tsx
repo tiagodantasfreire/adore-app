@@ -1,5 +1,6 @@
-import { getUser } from '@/lib/session'
 import Link from 'next/link'
+
+import { getUser } from '@/lib/session'
 
 export default async function Home() {
   const user = await getUser()

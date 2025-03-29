@@ -1,6 +1,7 @@
+import { redirect } from 'next/navigation'
+
 import { SignInGoogleButton } from '@/components/sign-in-google-button'
 import { getUser } from '@/lib/session'
-import { redirect } from 'next/navigation'
 
 export default async function SignIn() {
   const user = await getUser()
