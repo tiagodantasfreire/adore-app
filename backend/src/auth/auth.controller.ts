@@ -50,9 +50,12 @@ export class AuthController {
       expiresIn: '7d',
     })
 
+    const isProduction = process.env.NODE_ENV === 'production'
+
     res.cookie('session', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production', // Use secure cookie in production
+      secure: isProduction, // Use secure cookie in production
+      sameSite: isProduction ? 'none' : 'lax',
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     })
 
