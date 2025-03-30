@@ -1,30 +1,27 @@
-import { cookies } from 'next/headers'
-import { redirect } from 'next/navigation'
-import { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(req: NextRequest) {
   const { url } = req
-
   const { searchParams } = new URL(url)
 
   const token = searchParams.get('token')
 
   if (!token) {
-    return redirect('/sign-in')
+    return NextResponse.redirect(new URL('/sign-in', req.url))
   }
 
-  const allCookies = await cookies()
+  const expiredAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
 
-  const expiredAt = new Date(
-    Date.now() + 7 * 24 * 60 * 60 * 1000
-  )
+  const response = NextResponse.redirect(new URL('/home', req.url))
 
-  allCookies.set('session', token, {
+  response.cookies.set({
+    name: 'session',
+    value: token,
     httpOnly: true,
-    sameSite: true,
+    sameSite: 'strict',
     path: '/',
     expires: expiredAt,
   })
 
-  redirect('/home')
+  return response
 }
