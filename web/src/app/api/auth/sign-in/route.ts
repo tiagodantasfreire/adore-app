@@ -11,7 +11,6 @@ export async function GET(req: NextRequest) {
   }
 
   const expiredAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
-  console.log('Expiration Date:', expiredAt.toUTCString()) // Debugging
 
   const response = NextResponse.redirect(new URL('/home', req.url))
 
@@ -23,6 +22,7 @@ export async function GET(req: NextRequest) {
     path: '/',
     expires: expiredAt,
     secure: process.env.NODE_ENV === 'production',
+    domain: process.env.NODE_ENV === 'production' ? 'app-adore.vercel.app' : 'localhost'
   })
 
   return response
