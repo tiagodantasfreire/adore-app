@@ -11,6 +11,7 @@ export async function GET(req: NextRequest) {
   }
 
   const expiredAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+  console.log('Expiration Date:', expiredAt.toUTCString()) // Debugging
 
   const response = NextResponse.redirect(new URL('/home', req.url))
 
@@ -18,7 +19,7 @@ export async function GET(req: NextRequest) {
     name: 'session',
     value: token,
     httpOnly: true,
-    sameSite: 'strict',
+    sameSite: 'lax',
     path: '/',
     expires: expiredAt,
   })
