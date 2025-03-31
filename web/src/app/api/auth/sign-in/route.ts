@@ -1,3 +1,4 @@
+import { env } from '@/lib/env'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(req: NextRequest) {
@@ -14,15 +15,17 @@ export async function GET(req: NextRequest) {
 
   const response = NextResponse.redirect(new URL('/home', req.url))
 
+  const isProduction = process.env.NODE_ENV === 'production'
+  const domain = env.WEB_URL
+
   response.cookies.set({
     name: 'session',
     value: token,
     httpOnly: true,
-    sameSite: 'lax',
     path: '/',
     expires: expiredAt,
-    secure: process.env.NODE_ENV === 'production',
-    domain: process.env.NODE_ENV === 'production' ? 'app-adore.vercel.app' : 'localhost'
+    secure: isProduction,
+    domain,
   })
 
   return response
