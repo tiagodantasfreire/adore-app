@@ -22,6 +22,7 @@ export async function GET(req: NextRequest) {
     sameSite: 'lax',
     path: '/',
     expires: expiredAt,
+    secure: process.env.NODE_ENV === 'production',
   })
 
   return response
