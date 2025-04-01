@@ -28,9 +28,6 @@ export default function CreateMinistryButton() {
       <DialogContent>
         <DialogHeader className="text-left mb-2">
           <DialogTitle>Crie seu ministério</DialogTitle>
-          <DialogDescription>
-            Make changes to your profile here. Click save when youre done.
-          </DialogDescription>
         </DialogHeader>
 
         <div>
