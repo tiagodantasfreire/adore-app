@@ -5,7 +5,10 @@ export default function HomeLayout({ children }: PropsWithChildren) {
   return (
     <div>
       <Header />
-      {children}
+
+      <main className='p-4'>
+        {children}
+      </main>
     </div>
   )
 }

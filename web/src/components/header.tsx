@@ -1,15 +1,16 @@
-import { AvatarImage } from '@radix-ui/react-avatar'
-import { Avatar } from './ui/avatar'
+import { Avatar, AvatarFallback } from './ui/avatar'
 import { getUser } from '@/lib/session'
 
 export default async function Header() {
   const user = await getUser()
 
-  return (
-    <div>
-      <Avatar>
-        <AvatarImage src={user?.avatarUrl} />
+  const nameInitials = user && (user.firstName[0] + user.lastName[0])
+    .toUpperCase()
 
+  return (
+    <div className='flex p-4 border-b-2'>
+      <Avatar>
+        <AvatarFallback>{nameInitials}</AvatarFallback>
       </Avatar>
     </div>
   )
