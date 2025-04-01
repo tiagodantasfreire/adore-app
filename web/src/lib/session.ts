@@ -8,13 +8,13 @@ type SessionUser = {
   id: string
   firstName: string
   lastName: string
-};
+}
 
 export type Session = {
   user: SessionUser
   accessToken: string
   refreshToken: string
-};
+}
 
 export async function deleteSession() {
   const cookies = await nextCookies()
@@ -29,7 +29,7 @@ export async function getUser(): Promise<User | null> {
 
   const res = await fetch(`${env.BACKEND_URL}/auth/me`, {
     headers: { Authorization: `Bearer ${token}` },
-    cache: 'no-store'
+    cache: 'no-store',
   })
 
   if (!res.ok) return null

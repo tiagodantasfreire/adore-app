@@ -3,13 +3,11 @@ import { Input } from './ui/input'
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger
+  DialogTrigger,
 } from './ui/dialog'
-import { DialogClose } from '@radix-ui/react-dialog'
 
 export default function CreateMinistryButton() {
   // add react hook form
@@ -20,9 +18,7 @@ export default function CreateMinistryButton() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button size="full">
-          Criar ministério
-        </Button>
+        <Button size="full">Criar ministério</Button>
       </DialogTrigger>
 
       <DialogContent>
@@ -39,11 +35,9 @@ export default function CreateMinistryButton() {
         </div>
 
         <DialogFooter>
-          <DialogClose>
-            <Button type="submit" variant="secondary" size="full">
-              Criar ministério
-            </Button>
-          </DialogClose>
+          <Button type="submit" variant="secondary" size="full">
+            Criar ministério
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

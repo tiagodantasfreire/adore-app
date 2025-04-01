@@ -6,9 +6,7 @@ export default function HomeLayout({ children }: PropsWithChildren) {
     <div>
       <Header />
 
-      <main className='p-4'>
-        {children}
-      </main>
+      <main className="p-4">{children}</main>
     </div>
   )
 }

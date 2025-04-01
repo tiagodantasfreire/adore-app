@@ -9,7 +9,7 @@ export default async function SignIn() {
   if (user) return redirect('/home')
 
   return (
-    <div className='flex flex-col gap-2 h-dvh items-center justify-center'>
+    <div className="flex flex-col gap-2 h-dvh items-center justify-center">
       <p>Seja bem vindo</p>
       <SignInGoogleButton />
     </div>

@@ -8,7 +8,7 @@ export default async function Header() {
     .toUpperCase()
 
   return (
-    <div className='flex p-4 border-b-2'>
+    <div className="flex p-4 border-b-2">
       <Avatar>
         <AvatarFallback>{nameInitials}</AvatarFallback>
       </Avatar>
