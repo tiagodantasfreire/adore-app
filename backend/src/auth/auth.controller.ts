@@ -18,7 +18,7 @@ const jwtSecret = process.env.JWT_SECRET ?? ''
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Get('me')
+  @Get('/me')
   getProfile(@Req() req: Request, @Res() res: Response) {
     const authHeader = req.headers['authorization']
 
@@ -42,7 +42,7 @@ export class AuthController {
   googleLogin() {}
 
   @UseGuards(GoogleAuthGuard)
-  @Get('google/callback')
+  @Get('/google/callback')
   googleCallback(@Req() req: AuthenticatedRequest, @Res() res: Response) {
     const user = req.user
 
