@@ -4,8 +4,8 @@ import { getUser } from '@/lib/session'
 export default async function Header() {
   const user = await getUser()
 
-  const nameInitials = user && (user.firstName[0] + user.lastName[0])
-    .toUpperCase()
+  const nameInitials =
+    user && (user.firstName[0] + user.lastName[0]).toUpperCase()
 
   return (
     <div className="flex p-4 border-b-2">
