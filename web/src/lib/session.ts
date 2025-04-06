@@ -3,6 +3,7 @@
 import { cookies as nextCookies } from 'next/headers'
 import { User } from '@/types/user'
 import { env } from './env'
+import { redirect } from 'next/navigation'
 
 type SessionUser = {
   id: string
@@ -19,6 +20,8 @@ export type Session = {
 export async function deleteSession() {
   const cookies = await nextCookies()
   cookies.delete('session')
+
+  redirect('/')
 }
 
 export async function getUser(): Promise<User | null> {
