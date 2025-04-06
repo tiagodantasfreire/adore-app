@@ -19,12 +19,15 @@ export type Session = {
 export async function deleteSession() {
   const cookies = await nextCookies()
 
+  const isProduction = process.env.NODE_ENV === 'production'
+  const domain = env.WEB_URL
+
   cookies.delete({
     name: 'session',
-    path: '/',
-    domain: env.WEB_URL ? new URL(env.WEB_URL).hostname : undefined,
-    secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
+    path: '/',
+    secure: isProduction,
+    domain,
   })
 
   return { success: true }
