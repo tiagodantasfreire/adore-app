@@ -12,4 +12,8 @@ export type Ministry = {
   id: string
   name: string
   userId: number
+  owner: {
+    firstName: string
+    lastName: string
+  }
 }

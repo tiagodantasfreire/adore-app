@@ -2,6 +2,7 @@
 import { useQuery } from '@tanstack/react-query'
 
 import { getAllMinistries } from '@/actions/get-all-ministries'
+import MinistryItem from './ministry-item'
 
 export default function MinistryList() {
   const { data: ministries } = useQuery({
@@ -11,9 +12,9 @@ export default function MinistryList() {
   })
 
   return (
-    <div>
+    <div className="flex flex-col gap-4 w-full">
       {ministries.map((ministry) => (
-        <p key={ministry.id}>{ministry.name}</p>
+        <MinistryItem key={ministry.id} ministry={ministry} />
       ))}
     </div>
   )

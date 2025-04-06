@@ -32,4 +32,8 @@ export class UserService {
       data: { refreshToken: hashedRefreshToken },
     })
   }
+
+  getById(userId: number) {
+    return this.prisma.user.findUnique({ where: { id: userId } })
+  }
 }

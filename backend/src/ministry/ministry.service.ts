@@ -50,6 +50,12 @@ export class MinistryService {
   }
 
   async getAll() {
-    return this.prisma.ministry.findMany()
+    return this.prisma.ministry.findMany({
+      include: {
+        owner: {
+          select: { firstName: true, lastName: true },
+        },
+      },
+    })
   }
 }

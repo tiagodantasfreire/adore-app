@@ -3,11 +3,15 @@ import { CreateMinistryDto } from './dto/create-ministry.dto'
 import { MinistryService } from './ministry.service'
 import { Response } from 'express'
 import { RequireAuthHeaderGuard } from 'src/guards/require-auth-header.guard'
+import { UserService } from 'src/user/user.service'
 
 @Controller('/ministry')
 @UseGuards(RequireAuthHeaderGuard)
 export class MinistryController {
-  constructor(private readonly ministryService: MinistryService) {}
+  constructor(
+    private readonly ministryService: MinistryService,
+    private readonly userService: UserService,
+  ) {}
 
   @Post()
   async createMinistry(@Body() body: CreateMinistryDto, @Res() res: Response) {
@@ -27,13 +31,13 @@ export class MinistryController {
       userId,
     })
 
-    console.log(createdMinistry)
-
     res.json(createdMinistry)
   }
 
   @Get()
   async getAllMinistries() {
-    return await this.ministryService.getAll()
+    const ministries = await this.ministryService.getAll()
+
+    return ministries
   }
 }
