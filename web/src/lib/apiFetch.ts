@@ -7,14 +7,14 @@ export async function apiFetch<T>(
   const baseUrl = env.BACKEND_URL
 
   const cookies = await nextCookies()
-  const token = cookies.get('token')?.value
+  const sessionToken = cookies.get('session')?.value
 
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
   }
 
-  if (token) {
-    headers.Authorization = `Bearer ${token}`
+  if (sessionToken) {
+    headers.Authorization = `Bearer ${sessionToken}`
   }
 
   const response = await fetch(`${baseUrl}${endpoint}`, {
