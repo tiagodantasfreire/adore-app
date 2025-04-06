@@ -1,19 +1,31 @@
 import { env } from './env'
-
+import { cookies as nextCookies } from 'next/headers'
 export async function apiFetch<T>(
   endpoint: string,
   options: RequestInit = {},
 ): Promise<T> {
   const baseUrl = env.BACKEND_URL
 
+  const cookies = await nextCookies()
+  const token = cookies.get('token')?.value
+
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+  }
+
+  if (token) {
+    headers.Authorization = `Bearer ${token}`
+  }
+
   const response = await fetch(`${baseUrl}${endpoint}`, {
     ...options,
-    headers: { 'Content-Type': 'application/json' },
+    headers,
   })
 
   if (!response.ok) {
     const errorData = await response.json()
     const errorMessage = errorData.message
+
     throw new Error(errorMessage)
   }
 

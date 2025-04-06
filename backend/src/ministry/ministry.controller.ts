@@ -1,9 +1,11 @@
-import { Body, Controller, Get, Post, Res } from '@nestjs/common'
+import { Body, Controller, Get, Post, Res, UseGuards } from '@nestjs/common'
 import { CreateMinistryDto } from './dto/create-ministry.dto'
 import { MinistryService } from './ministry.service'
 import { Response } from 'express'
+import { RequireAuthHeaderGuard } from 'src/guards/require-auth-header.guard'
 
 @Controller('/ministry')
+@UseGuards(RequireAuthHeaderGuard)
 export class MinistryController {
   constructor(private readonly ministryService: MinistryService) {}
 
