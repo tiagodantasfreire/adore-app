@@ -18,7 +18,14 @@ export type Session = {
 
 export async function deleteSession() {
   const cookies = await nextCookies()
-  cookies.delete('session')
+
+  cookies.delete({
+    name: 'session',
+    path: '/',
+    domain: env.WEB_URL ? new URL(env.WEB_URL).hostname : undefined,
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+  })
 
   return { success: true }
 }
