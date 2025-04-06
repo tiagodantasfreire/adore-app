@@ -9,7 +9,7 @@ export default async function Header() {
     user && (user.firstName[0] + user.lastName[0]).toUpperCase()
 
   return (
-    <div className="flex p-4 border-b-2 justify-between">
+    <div className="flex px-4 py-2 border-b-2 justify-between">
       <Avatar>
         <AvatarFallback>{nameInitials}</AvatarFallback>
       </Avatar>
