@@ -1,7 +1,7 @@
 'use client'
 import { useQuery } from '@tanstack/react-query'
 
-import { getAllMinistries } from '@/actions/get-all-ministries'
+import { getAllMinistries } from '@/actions/ministry/get-all'
 import MinistryItem from './ministry-item'
 
 export default function MinistryList() {

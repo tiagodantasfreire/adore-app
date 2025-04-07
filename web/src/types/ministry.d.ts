@@ -12,7 +12,7 @@ export type Ministry = {
   id: string
   name: string
   userId: number
-  owner: {
+  createdBy: {
     firstName: string
     lastName: string
   }

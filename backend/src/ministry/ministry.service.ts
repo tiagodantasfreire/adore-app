@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { CreateMinistryDto } from './dto/create-ministry.dto'
+import { JoinMinistryDto } from './dto/join-ministry.dto'
 
 @Injectable()
 export class MinistryService {
@@ -14,7 +15,6 @@ export class MinistryService {
 
   async create({ name, userId }: CreateMinistryDto) {
     try {
-      // Verifica se já existe um ministério com esse nome
       const existingMinistry = await this.prisma.ministry.findFirst({
         where: { name },
       })
@@ -52,8 +52,19 @@ export class MinistryService {
   async getAll() {
     return this.prisma.ministry.findMany({
       include: {
-        owner: {
+        createdBy: {
           select: { firstName: true, lastName: true },
+        },
+      },
+    })
+  }
+
+  async join({ ministryId, userId }: JoinMinistryDto) {
+    return this.prisma.ministry.update({
+      where: { id: ministryId },
+      data: {
+        members: {
+          connect: { id: userId },
         },
       },
     })

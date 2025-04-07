@@ -1,9 +1,8 @@
 'use client'
 import { useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { Loader2 } from 'lucide-react'
 
-import { createMinistry } from '@/actions/create-ministry'
+import { createMinistry } from '@/actions/ministry/create'
 import { CreateMinistryResponse } from '@/types/ministry'
 
 import ErrorText from './error-text'
@@ -94,10 +93,9 @@ export default function CreateMinistryButton() {
             <Button
               type="submit"
               variant="secondary"
-              disabled={mutation.isPending}
+              isLoading={mutation.isPending}
               size="full"
             >
-              {mutation.isPending && <Loader2 className="animate-spin mr-2" />}
               Criar ministério
             </Button>
           </DialogFooter>

@@ -1,17 +1,23 @@
-import { Body, Controller, Get, Post, Res, UseGuards } from '@nestjs/common'
-import { CreateMinistryDto } from './dto/create-ministry.dto'
-import { MinistryService } from './ministry.service'
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Res,
+  UseGuards,
+} from '@nestjs/common'
 import { Response } from 'express'
+
+import { MinistryService } from './ministry.service'
 import { RequireAuthHeaderGuard } from 'src/guards/require-auth-header.guard'
-import { UserService } from 'src/user/user.service'
+import { CreateMinistryDto } from './dto/create-ministry.dto'
+import { JoinMinistryDto } from './dto/join-ministry.dto'
 
 @Controller('/ministry')
 @UseGuards(RequireAuthHeaderGuard)
 export class MinistryController {
-  constructor(
-    private readonly ministryService: MinistryService,
-    private readonly userService: UserService,
-  ) {}
+  constructor(private readonly ministryService: MinistryService) {}
 
   @Post()
   async createMinistry(@Body() body: CreateMinistryDto, @Res() res: Response) {
@@ -39,5 +45,25 @@ export class MinistryController {
     const ministries = await this.ministryService.getAll()
 
     return ministries
+  }
+
+  @Post('/:id/join')
+  async joinMinistry(
+    @Param('id') id: string,
+    @Body() body: JoinMinistryDto,
+    @Res() res: Response,
+  ) {
+    const userId = body.userId
+
+    if (!userId) {
+      throw new Error('User id is missing')
+    }
+
+    const ministry = await this.ministryService.join({
+      ministryId: id,
+      userId: userId,
+    })
+
+    res.json(ministry)
   }
 }

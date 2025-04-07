@@ -14,18 +14,21 @@ datasource db {
 }
 
 model User {
-  id           Int        @id @default(autoincrement())
-  firstName    String
-  lastName     String
-  email        String     @unique
-  avatarUrl    String?
-  refreshToken String?
-  Ministry     Ministry[]
+  id                Int        @id @default(autoincrement())
+  firstName         String
+  lastName          String
+  email             String     @unique
+  avatarUrl         String?
+  refreshToken      String?
+  createdMinistries Ministry[] @relation("MinistryCreator")
+  ministry          Ministry?  @relation("MinistryMember", fields: [ministryId], references: [id])
+  ministryId        String?
 }
 
 model Ministry {
-  id     String @id @default(uuid())
-  name   String
-  owner  User   @relation(fields: [userId], references: [id])
-  userId Int
+  id        String @id @default(uuid())
+  name      String
+  createdBy User   @relation("MinistryCreator", fields: [userId], references: [id])
+  userId    Int
+  members   User[] @relation("MinistryMember")
 }
