@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useRouter } from 'next/navigation'
 
 import { createMinistry } from '@/actions/ministry/create'
 import { CreateMinistryResponse } from '@/types/ministry'
@@ -24,6 +25,7 @@ export default function CreateMinistryButton() {
     useState(false)
 
   const queryClient = useQueryClient()
+  const router = useRouter()
 
   const mutation = useMutation({
     mutationKey: ['create-ministry'],
@@ -32,11 +34,11 @@ export default function CreateMinistryButton() {
       setError(err.message)
     },
     onSuccess: (data: CreateMinistryResponse) => {
-      console.log(data) // redirect to ministry page
       setIsCreateMinistryModalOpen(false)
       setError(null)
 
       queryClient.invalidateQueries({ queryKey: ['get-ministries'] })
+      router.push(`/ministerio/${data.id}`)
     },
   })
 

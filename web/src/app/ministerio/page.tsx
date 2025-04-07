@@ -1,5 +1,5 @@
 import CreateMinistryButton from '@/components/create-ministry-button'
-import MinistryList from '@/components/ministry/ministry-list'
+import MinistryList from '@/components/ministries-list'
 
 export default async function Home() {
   return (

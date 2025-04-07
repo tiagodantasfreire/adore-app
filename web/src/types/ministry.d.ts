@@ -16,4 +16,7 @@ export type Ministry = {
     firstName: string
     lastName: string
   }
+  _count: {
+    members: number
+  }
 }

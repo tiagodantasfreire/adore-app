@@ -1,8 +1,10 @@
-export type User = {
+export type JwtUser = {
   id: number
   firstName: string
   lastName: string
   email: string
   avatarUrl: string
-  ministryId: number
+  refreshToken: string
+  iat: number
+  exp: number
 }

@@ -6,7 +6,7 @@ import { getUser } from '@/lib/session'
 export default async function SignIn() {
   const user = await getUser()
 
-  if (user) return redirect('/home')
+  if (user) return redirect('/ministerio')
 
   return (
     <div className="flex flex-col gap-2 h-dvh items-center justify-center">

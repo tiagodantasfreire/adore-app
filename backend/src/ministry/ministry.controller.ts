@@ -13,6 +13,7 @@ import { MinistryService } from './ministry.service'
 import { RequireAuthHeaderGuard } from 'src/guards/require-auth-header.guard'
 import { CreateMinistryDto } from './dto/create-ministry.dto'
 import { JoinMinistryDto } from './dto/join-ministry.dto'
+import { ExitMinistryDto } from './dto/exit-ministry.dto'
 
 @Controller('/ministry')
 @UseGuards(RequireAuthHeaderGuard)
@@ -47,6 +48,17 @@ export class MinistryController {
     return ministries
   }
 
+  @Get('/:id')
+  async getMinistryById(@Param('id') id: string) {
+    const ministry = await this.ministryService.getById(id)
+
+    if (!ministry) {
+      throw new Error('Ministry not found')
+    }
+
+    return ministry
+  }
+
   @Post('/:id/join')
   async joinMinistry(
     @Param('id') id: string,
@@ -60,6 +72,26 @@ export class MinistryController {
     }
 
     const ministry = await this.ministryService.join({
+      ministryId: id,
+      userId: userId,
+    })
+
+    res.json(ministry)
+  }
+
+  @Post('/:id/exit')
+  async exitMinistry(
+    @Param('id') id: string,
+    @Body() body: ExitMinistryDto,
+    @Res() res: Response,
+  ) {
+    const userId = body.userId
+
+    if (!userId) {
+      throw new Error('User id is missing')
+    }
+
+    const ministry = await this.ministryService.exit({
       ministryId: id,
       userId: userId,
     })

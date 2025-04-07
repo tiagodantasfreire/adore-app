@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
 
   const expiredAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
 
-  const response = NextResponse.redirect(new URL('/home', req.url))
+  const response = NextResponse.redirect(new URL('/ministerio', req.url))
 
   const isProduction = process.env.NODE_ENV === 'production'
   const domain = env.WEB_URL

@@ -7,6 +7,7 @@ import {
 import { PrismaService } from 'src/prisma/prisma.service'
 import { CreateMinistryDto } from './dto/create-ministry.dto'
 import { JoinMinistryDto } from './dto/join-ministry.dto'
+import { ExitMinistryDto } from './dto/exit-ministry.dto'
 
 @Injectable()
 export class MinistryService {
@@ -27,6 +28,9 @@ export class MinistryService {
         data: {
           name,
           userId,
+          members: {
+            connect: { id: userId },
+          },
         },
       })
     } catch (error: unknown) {
@@ -55,7 +59,16 @@ export class MinistryService {
         createdBy: {
           select: { firstName: true, lastName: true },
         },
+        _count: {
+          select: { members: true },
+        },
       },
+    })
+  }
+
+  async getById(id: string) {
+    return this.prisma.ministry.findUnique({
+      where: { id },
     })
   }
 
@@ -67,6 +80,13 @@ export class MinistryService {
           connect: { id: userId },
         },
       },
+    })
+  }
+
+  async exit({ ministryId, userId }: ExitMinistryDto) {
+    return this.prisma.ministry.update({
+      where: { id: ministryId },
+      data: { members: { disconnect: { id: userId } } },
     })
   }
 }

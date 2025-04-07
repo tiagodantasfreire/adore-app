@@ -3,6 +3,8 @@ import { AuthService } from './auth.service'
 import { GoogleAuthGuard } from './guards/google-auth.guards'
 import { Request, Response } from 'express'
 import * as jwt from 'jsonwebtoken'
+import { UserService } from 'src/user/user.service'
+import { JwtUser } from './types/jwt-user'
 
 interface AuthenticatedRequest extends Request {
   user: {
@@ -16,10 +18,13 @@ const jwtSecret = process.env.JWT_SECRET ?? ''
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly userService: UserService,
+  ) {}
 
   @Get('/me')
-  getProfile(@Req() req: Request, @Res() res: Response) {
+  async getProfile(@Req() req: Request, @Res() res: Response) {
     const authHeader = req.headers['authorization']
 
     if (!authHeader) {
@@ -32,9 +37,18 @@ export class AuthController {
       throw new Error('Token missing from Authorization header')
     }
 
-    const user = jwt.verify(token, jwtSecret) // Verify token
+    const user = jwt.verify(token, jwtSecret) as JwtUser
 
-    return res.json(user)
+    if (!user) {
+      throw new Error('Invalid token')
+    }
+
+    const userData = await this.userService.findById(user.id)
+
+    return res.json({
+      ...user,
+      ...userData,
+    })
   }
 
   @UseGuards(GoogleAuthGuard)
