@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   Post,
+  Query,
   Res,
   UseGuards,
 } from '@nestjs/common'
@@ -42,7 +43,12 @@ export class MinistryController {
   }
 
   @Get()
-  async getAllMinistries() {
+  async getMinistries(@Query('ministryName') ministryName?: string) {
+    if (ministryName) {
+      const ministries = await this.ministryService.getByName(ministryName)
+      return ministries
+    }
+
     const ministries = await this.ministryService.getAll()
 
     return ministries

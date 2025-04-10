@@ -6,9 +6,9 @@ import { useRouter } from 'next/navigation'
 import { createMinistry } from '@/actions/ministry/create'
 import { CreateMinistryResponse } from '@/types/ministry'
 
-import ErrorText from './error-text'
-import { Button } from './ui/button'
-import { Input } from './ui/input'
+import ErrorText from '../error-text'
+import { Button } from '../ui/button'
+import { Input } from '../ui/input'
 import {
   Dialog,
   DialogContent,
@@ -17,7 +17,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from './ui/dialog'
+} from '../ui/dialog'
+import { PlusIcon } from 'lucide-react'
 
 export default function CreateMinistryButton() {
   const [error, setError] = useState<string | null>(null)
@@ -67,7 +68,9 @@ export default function CreateMinistryButton() {
       onOpenChange={(open) => setIsCreateMinistryModalOpen(open)}
     >
       <DialogTrigger asChild>
-        <Button size="full">Criar ministério</Button>
+        <Button>
+          <PlusIcon className="w-4 h-4" />
+        </Button>
       </DialogTrigger>
 
       <DialogContent>

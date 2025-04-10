@@ -15,7 +15,7 @@ export default function MinistryItem({ ministry }: MinistryItemProps) {
     ? `${ministry.createdBy?.firstName} ${ministry.createdBy?.lastName}`
     : null
 
-  const membersCount = ministry._count.members
+  const membersCount = ministry._count?.members || 0
   const membersCountText =
     membersCount === 1 ? '1 membro' : `${membersCount} membros`
 

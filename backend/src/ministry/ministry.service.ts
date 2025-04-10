@@ -4,6 +4,7 @@ import {
   InternalServerErrorException,
   Logger,
 } from '@nestjs/common'
+
 import { PrismaService } from 'src/prisma/prisma.service'
 import { CreateMinistryDto } from './dto/create-ministry.dto'
 import { JoinMinistryDto } from './dto/join-ministry.dto'
@@ -66,6 +67,19 @@ export class MinistryService {
     })
   }
 
+  async getByName(name: string) {
+    return this.prisma.ministry.findMany({
+      where: { name: { contains: name, mode: 'insensitive' } },
+      include: {
+        createdBy: {
+          select: { firstName: true, lastName: true },
+        },
+        _count: {
+          select: { members: true },
+        },
+      },
+    })
+  }
   async getById(id: string) {
     return this.prisma.ministry.findUnique({
       where: { id },

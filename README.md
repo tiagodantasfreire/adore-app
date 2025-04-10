@@ -1,8 +1,6 @@
 # Adore App
 
 ### To Do
-- [] Enter ministry
-- [] Search ministry by name
 - [] Ministries pagination
 - [] User info popover
 - [] Add musics functionality
