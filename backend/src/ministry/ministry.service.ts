@@ -60,9 +60,6 @@ export class MinistryService {
         createdBy: {
           select: { firstName: true, lastName: true },
         },
-        _count: {
-          select: { members: true },
-        },
       },
     })
   }
@@ -73,9 +70,6 @@ export class MinistryService {
       include: {
         createdBy: {
           select: { firstName: true, lastName: true },
-        },
-        _count: {
-          select: { members: true },
         },
       },
     })

@@ -17,14 +17,18 @@ export default function MinistryList() {
   })
 
   return (
-    <div className="flex flex-col gap-4 w-full">
+    <div className="flex flex-col gap-4 w-full mt-2">
       <SkeletonWrapper
         isLoading={isFetching}
         skeleton={<Skeleton className="h-32 w-full" count={5} />}
       >
-        {ministries?.map((ministry) => (
-          <MinistryItem key={ministry.id} ministry={ministry} />
-        ))}
+        <div className="divide-y divide-border">
+          {ministries?.map((ministry) => (
+            <div key={ministry.id} className="py-4 first:pt-0 last:pb-0">
+              <MinistryItem ministry={ministry} />
+            </div>
+          ))}
+        </div>
       </SkeletonWrapper>
     </div>
   )
