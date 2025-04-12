@@ -1,15 +1,15 @@
 'use client'
 import { useQuery } from '@tanstack/react-query'
-import { useSearchParams } from 'next/navigation'
 
 import { getMinistries } from '@/actions/ministry/get-ministries'
 import MinistryItem from './ministry-item'
 import { Skeleton, SkeletonWrapper } from '../ui/skeleton'
 
-export default function MinistryList() {
-  const searchParams = useSearchParams()
-  const ministryName = searchParams.get('ministryName')
+interface MinistryListProps {
+  ministryName?: string
+}
 
+export default function MinistryList({ ministryName }: MinistryListProps) {
   const { data: ministries, isFetching } = useQuery({
     initialData: [],
     queryKey: ['get-ministries', ministryName],
