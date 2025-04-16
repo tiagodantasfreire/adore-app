@@ -9,12 +9,12 @@ import {
   UseGuards,
 } from '@nestjs/common'
 import { Response } from 'express'
+import { User } from '@prisma/client'
 
 import { MinistryService } from './ministry.service'
 import { RequireAuthHeaderGuard } from 'src/guards/require-auth-header.guard'
 import { CreateMinistryDto } from './dto/create-ministry.dto'
-import { JoinMinistryDto } from './dto/join-ministry.dto'
-import { ExitMinistryDto } from './dto/exit-ministry.dto'
+import { GetUser } from 'src/auth/decorators/get-user.decorator'
 
 @Controller('/ministry')
 @UseGuards(RequireAuthHeaderGuard)
@@ -68,10 +68,10 @@ export class MinistryController {
   @Post('/:id/join')
   async joinMinistry(
     @Param('id') id: string,
-    @Body() body: JoinMinistryDto,
+    @GetUser() user: User,
     @Res() res: Response,
   ) {
-    const userId = body.userId
+    const userId = user.id
 
     if (!userId) {
       throw new Error('User id is missing')
@@ -88,10 +88,10 @@ export class MinistryController {
   @Post('/:id/exit')
   async exitMinistry(
     @Param('id') id: string,
-    @Body() body: ExitMinistryDto,
+    @GetUser() user: User,
     @Res() res: Response,
   ) {
-    const userId = body.userId
+    const userId = user.id
 
     if (!userId) {
       throw new Error('User id is missing')

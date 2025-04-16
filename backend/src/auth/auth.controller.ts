@@ -1,6 +1,6 @@
 import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common'
 import { AuthService } from './auth.service'
-import { GoogleAuthGuard } from './guards/google-auth.guards'
+import { GoogleAuthGuard } from './guards/google-auth.guard'
 import { Request, Response } from 'express'
 import * as jwt from 'jsonwebtoken'
 import { UserService } from 'src/user/user.service'

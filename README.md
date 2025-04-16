@@ -14,3 +14,4 @@
   - [] Tema
   - [] Esconder texto do tom (Lá) e mostrar só a cifra (A)
   - [] Mostrar relativa menor (A/F#m)
+  - [] Mostrar bemol ou sustenido

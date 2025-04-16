@@ -3,6 +3,7 @@ import { z } from 'zod'
 const envSchema = z.object({
   BACKEND_URL: z.string(),
   WEB_URL: z.string(),
+  JWT_SECRET: z.string(),
 })
 
 const parsed = envSchema.safeParse(process.env)

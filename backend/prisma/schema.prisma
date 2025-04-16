@@ -14,15 +14,18 @@ datasource db {
 }
 
 model User {
-  id                Int        @id @default(autoincrement())
-  firstName         String
-  lastName          String
-  email             String     @unique
-  avatarUrl         String?
-  refreshToken      String?
+  id           Int     @id @default(autoincrement())
+  firstName    String
+  lastName     String
+  email        String  @unique
+  avatarUrl    String?
+  refreshToken String?
+
   createdMinistries Ministry[] @relation("MinistryCreator")
   ministry          Ministry?  @relation("MinistryMember", fields: [ministryId], references: [id])
-  ministryId        String?
+
+  ministryId String?
+  Music      Music[] @relation("MusicCreator")
 }
 
 model Ministry {
@@ -30,5 +33,40 @@ model Ministry {
   name      String
   createdBy User   @relation("MinistryCreator", fields: [userId], references: [id])
   userId    Int
-  members   User[] @relation("MinistryMember")
+
+  members User[]  @relation("MinistryMember")
+  music   Music[] @relation("MusicCreator")
+}
+
+model Music {
+  id          String   @id @default(uuid())
+  name        String
+  artist      String
+  singer      String
+  tone        Tone
+  date        DateTime
+  serviceName String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  createdBy User @relation("MusicCreator", fields: [userId], references: [id])
+  userId    Int
+
+  ministry   Ministry @relation("MusicCreator", fields: [ministryId], references: [id])
+  ministryId String
+}
+
+enum Tone {
+  A
+  A_sharp @map("A#")
+  B
+  C
+  C_sharp @map("C#")
+  D
+  D_sharp @map("D#")
+  E
+  F
+  F_sharp @map("F#")
+  G
+  G_sharp @map("G#")
 }

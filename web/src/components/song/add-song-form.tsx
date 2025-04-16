@@ -13,11 +13,11 @@ import { SingerSelect } from './singer-select'
 import { Switch } from '../ui/switch'
 import { Label } from '../ui/label'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '../ui/form'
-
+import { useCreateMusic } from '@/services/music/useCreateMusic'
 // TODO: Get service names from the database
 
 const formSchema = z.object({
-  musicName: z.string().min(2, 'Nome da música é obrigatório'),
+  name: z.string().min(2, 'Nome da música é obrigatório'),
   artist: z.string().min(1, 'Artista é obrigatório'),
   singer: z.string().min(1, 'Cantor é obrigatório'),
   tone: z.string().min(1, 'Tom é obrigatório'),
@@ -27,15 +27,19 @@ const formSchema = z.object({
   serviceName: z.string().optional(),
 })
 
-type FormValues = z.infer<typeof formSchema>
+export type AddSongFormValues = z.infer<typeof formSchema>
 
-export default function AddSongForm() {
+interface AddSongFormProps {
+  ministryId: string
+}
+
+export default function AddSongForm({ ministryId }: AddSongFormProps) {
   const [showServiceName, setShowServiceName] = useState(false)
 
-  const form = useForm<FormValues>({
+  const form = useForm<AddSongFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      musicName: '',
+      name: '',
       artist: '',
       singer: '',
       tone: '',
@@ -43,19 +47,26 @@ export default function AddSongForm() {
     },
   })
 
-  const onSubmit = (data: FormValues) => {
-    console.log(data)
+  const { mutate: createMusic, isPending, isError, error } = useCreateMusic()
+
+  const onSubmit = (data: AddSongFormValues) => {
+    createMusic({ ...data, ministryId })
   }
 
   return (
     <Form {...form}>
+      {/* TODO: Add a toast to show the error */}
+      {isError && (
+        <div className="text-destructive font-bold">{error.message}</div>
+      )}
+
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col gap-4"
       >
         <FormField
           control={form.control}
-          name="musicName"
+          name="name"
           render={({ field }) => (
             <FormItem>
               <FormControl>
@@ -173,7 +184,9 @@ export default function AddSongForm() {
           />
         )}
 
-        <Button type="submit">Salvar música</Button>
+        <Button type="submit" disabled={isPending}>
+          {isPending ? 'Salvando...' : 'Salvar música'}
+        </Button>
       </form>
     </Form>
   )
