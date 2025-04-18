@@ -9,9 +9,11 @@ import { cn } from '@/lib/utils'
 function InputOTP({
   className,
   containerClassName,
+  inputMode = 'text',
   ...props
 }: React.ComponentProps<typeof OTPInput> & {
   containerClassName?: string
+  inputMode?: 'text' | 'numeric' | 'tel' | 'email' | 'url' | 'search' | 'none'
 }) {
   return (
     <OTPInput
@@ -21,6 +23,7 @@ function InputOTP({
         containerClassName,
       )}
       className={cn('disabled:cursor-not-allowed', className)}
+      inputMode={inputMode}
       {...props}
     />
   )
