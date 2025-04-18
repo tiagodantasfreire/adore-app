@@ -1,25 +1,27 @@
 'use client'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { joinMinistry } from '@/actions/ministry/join'
+import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
+import { AxiosError } from 'axios'
+
+import { joinMinistry } from '@/actions/ministry/join'
+import { ApiErrorResponse } from '@/lib/api'
 
 export function useJoinMinistry() {
-  const queryClient = useQueryClient()
   const router = useRouter()
 
   return useMutation({
     mutationFn: (accessCode: string) => joinMinistry(accessCode),
-    onSuccess: (_, ministryId) => {
-      toast.success('Ministério encontrado e você foi adicionado com sucesso!')
-      queryClient.invalidateQueries({ queryKey: ['ministries'] })
-      queryClient.invalidateQueries({ queryKey: ['ministry', ministryId] })
-
-      router.push(`/ministerio/${ministryId}`)
+    onSuccess: (ministry) => {
+      const ministryName = ministry.name
+      toast.success(`Você foi adicionado ao ministério ${ministryName}`)
+      router.push(`/ministerio/${ministry.id}`)
     },
-    onError: () => {
-      toast.error('Erro ao entrar no ministério')
+    onError: (error: Error | AxiosError<ApiErrorResponse>) => {
+      toast.error(
+        error.message || 'Ocorreu um erro ao tentar entrar no ministério',
+      )
     },
   })
 }

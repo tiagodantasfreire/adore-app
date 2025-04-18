@@ -1,16 +1,14 @@
 'use server'
-import { apiFetch } from '@/lib/apiFetch'
-import { getUser } from '@/lib/session'
+
+import api from '@/lib/api'
 
 export async function exitMinistry(ministryId: string) {
-  const user = await getUser()
+  try {
+    const response = await api.post(`/ministry/${ministryId}/exit`)
 
-  if (!user) {
-    throw new Error('User not found')
+    return response.data
+  } catch (error) {
+    console.error(error)
+    throw error
   }
-
-  return await apiFetch<void>(`/ministry/${ministryId}/exit`, {
-    method: 'POST',
-    body: JSON.stringify({ userId: user.id }),
-  })
 }

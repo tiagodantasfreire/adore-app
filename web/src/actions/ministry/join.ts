@@ -1,13 +1,15 @@
 'use server'
-import { apiFetch } from '@/lib/apiFetch'
+
+import { api } from '@/lib/api'
 import { Ministry } from '@/types/ministry'
 
-type JoinMinistryResponse = {
-  ministry: Ministry
-}
-
 export async function joinMinistry(accessCode: string) {
-  return await apiFetch<JoinMinistryResponse>(`/ministry/${accessCode}/join`, {
-    method: 'POST',
-  })
+  try {
+    const response = await api.post<Ministry>(`/ministry/${accessCode}/join`)
+
+    return response.data
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
 }
