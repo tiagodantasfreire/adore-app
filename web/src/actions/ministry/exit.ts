@@ -8,7 +8,10 @@ export async function exitMinistry(ministryId: string) {
 
     return response.data
   } catch (error) {
-    console.error(error)
-    throw error
+    if (error instanceof Error) {
+      throw new Error(error.message)
+    }
+
+    throw new Error('Ocorreu um erro ao tentar sair do ministério')
   }
 }

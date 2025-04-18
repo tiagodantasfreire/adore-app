@@ -1,7 +1,9 @@
 'use client'
+
 import { LogOut } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { toast } from 'sonner'
 
 import { deleteSession } from '@/lib/session'
 import { Button } from './ui/button'
@@ -19,8 +21,8 @@ export default function LogoutButton() {
         router.refresh()
         router.push('/')
       }
-    } catch (error) {
-      console.error('Failed to logout:', error)
+    } catch {
+      toast.error('Erro ao sair da conta')
     } finally {
       setIsLoading(false)
     }

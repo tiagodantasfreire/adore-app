@@ -12,7 +12,10 @@ export async function createMusic(musicData: CreateMusic) {
 
     return response.data
   } catch (error) {
-    console.error(error)
-    throw error
+    if (error instanceof Error) {
+      throw new Error(error.message)
+    }
+
+    throw new Error('Ocorreu um erro ao tentar criar a música')
   }
 }

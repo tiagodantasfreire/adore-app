@@ -19,9 +19,12 @@ export function useJoinMinistry() {
       router.push(`/ministerio/${ministry.id}`)
     },
     onError: (error: Error | AxiosError<ApiErrorResponse>) => {
-      toast.error(
-        error.message || 'Ocorreu um erro ao tentar entrar no ministério',
-      )
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : 'Ocorreu um erro ao tentar entrar no ministério'
+
+      toast.error(errorMessage)
     },
   })
 }

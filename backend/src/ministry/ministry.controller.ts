@@ -63,8 +63,6 @@ export class MinistryController {
       userId: userId,
     })
 
-    console.log(ministry)
-
     return ministry
   }
 

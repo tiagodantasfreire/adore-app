@@ -37,8 +37,6 @@ export class MusicController {
       userId,
     })
 
-    console.log(createdMusic)
-
     return createdMusic
   }
 }

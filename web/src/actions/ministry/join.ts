@@ -9,7 +9,10 @@ export async function joinMinistry(accessCode: string) {
 
     return response.data
   } catch (error) {
-    console.log(error)
-    throw error
+    if (error instanceof Error) {
+      throw new Error(error.message)
+    }
+
+    throw new Error('Ocorreu um erro ao tentar entrar no ministério')
   }
 }

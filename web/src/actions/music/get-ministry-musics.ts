@@ -9,7 +9,10 @@ export async function getMinistryMusics(ministryId: string) {
 
     return response.data
   } catch (error) {
-    console.error(error)
-    throw error
+    if (error instanceof Error) {
+      throw new Error(error.message)
+    }
+
+    throw new Error('Ocorreu um erro ao tentar obter as músicas do ministério')
   }
 }
