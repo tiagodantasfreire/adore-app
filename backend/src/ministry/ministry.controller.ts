@@ -4,7 +4,6 @@ import {
   Get,
   Param,
   Post,
-  Query,
   Res,
   UseGuards,
 } from '@nestjs/common'
@@ -42,18 +41,6 @@ export class MinistryController {
     res.json(createdMinistry)
   }
 
-  @Get()
-  async getMinistries(@Query('ministryName') ministryName?: string) {
-    if (ministryName) {
-      const ministries = await this.ministryService.getByName(ministryName)
-      return ministries
-    }
-
-    const ministries = await this.ministryService.getAll()
-
-    return ministries
-  }
-
   @Get('/:id')
   async getMinistryById(@Param('id') id: string) {
     const ministry = await this.ministryService.getById(id)
@@ -65,20 +52,25 @@ export class MinistryController {
     return ministry
   }
 
-  @Post('/:id/join')
+  @Post('/:accessCode/join')
   async joinMinistry(
-    @Param('id') id: string,
-    @GetUser() user: User,
+    @Param('accessCode') accessCode: string,
+    @GetUser('id') userId: number,
     @Res() res: Response,
   ) {
-    const userId = user.id
-
     if (!userId) {
       throw new Error('User id is missing')
     }
 
+    const ministryWithAccessCode =
+      await this.ministryService.getByAccessCode(accessCode)
+
+    if (!ministryWithAccessCode) {
+      throw new Error('Ministry not found')
+    }
+
     const ministry = await this.ministryService.join({
-      ministryId: id,
+      ministryId: ministryWithAccessCode.id,
       userId: userId,
     })
 

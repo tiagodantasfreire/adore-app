@@ -68,8 +68,9 @@ export default function CreateMinistryButton() {
       onOpenChange={(open) => setIsCreateMinistryModalOpen(open)}
     >
       <DialogTrigger asChild>
-        <Button>
+        <Button size="full" variant="outline">
           <PlusIcon className="w-4 h-4" />
+          Criar ministério
         </Button>
       </DialogTrigger>
 
