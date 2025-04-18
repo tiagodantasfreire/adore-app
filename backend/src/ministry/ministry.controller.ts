@@ -1,19 +1,11 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Post,
-  Res,
-  UseGuards,
-} from '@nestjs/common'
-import { Response } from 'express'
-import { User } from '@prisma/client'
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common'
 
 import { MinistryService } from './ministry.service'
 import { RequireAuthHeaderGuard } from 'src/guards/require-auth-header.guard'
 import { CreateMinistryDto } from './dto/create-ministry.dto'
 import { GetUser } from 'src/auth/decorators/get-user.decorator'
+import { MinistryNotFoundException } from 'src/exceptions/ministry-not-found.exception'
+import { MinistryAccessCodeNotValidException } from 'src/exceptions/ministry-access-code-not-valid.exception'
 
 @Controller('/ministry')
 @UseGuards(RequireAuthHeaderGuard)
@@ -21,7 +13,7 @@ export class MinistryController {
   constructor(private readonly ministryService: MinistryService) {}
 
   @Post()
-  async createMinistry(@Body() body: CreateMinistryDto, @Res() res: Response) {
+  async createMinistry(@Body() body: CreateMinistryDto) {
     const ministryName = body.name
     const userId = body.userId
 
@@ -38,7 +30,7 @@ export class MinistryController {
       userId,
     })
 
-    res.json(createdMinistry)
+    return createdMinistry
   }
 
   @Get('/:id')
@@ -46,7 +38,7 @@ export class MinistryController {
     const ministry = await this.ministryService.getById(id)
 
     if (!ministry) {
-      throw new Error('Ministry not found')
+      throw new MinistryNotFoundException()
     }
 
     return ministry
@@ -56,17 +48,12 @@ export class MinistryController {
   async joinMinistry(
     @Param('accessCode') accessCode: string,
     @GetUser('id') userId: number,
-    @Res() res: Response,
   ) {
-    if (!userId) {
-      throw new Error('User id is missing')
-    }
-
     const ministryWithAccessCode =
       await this.ministryService.getByAccessCode(accessCode)
 
     if (!ministryWithAccessCode) {
-      throw new Error('Ministry not found')
+      throw new MinistryAccessCodeNotValidException()
     }
 
     const ministry = await this.ministryService.join({
@@ -74,17 +61,13 @@ export class MinistryController {
       userId: userId,
     })
 
-    res.json(ministry)
+    console.log(ministry)
+
+    return ministry
   }
 
   @Post('/:id/exit')
-  async exitMinistry(
-    @Param('id') id: string,
-    @GetUser() user: User,
-    @Res() res: Response,
-  ) {
-    const userId = user.id
-
+  async exitMinistry(@Param('id') id: string, @GetUser('id') userId: number) {
     if (!userId) {
       throw new Error('User id is missing')
     }
@@ -94,6 +77,6 @@ export class MinistryController {
       userId: userId,
     })
 
-    res.json(ministry)
+    return ministry
   }
 }
