@@ -1,11 +1,18 @@
 'use server'
 
-import { apiFetch } from '@/lib/apiFetch'
-import { CreateMusic } from '@/types/music'
+import api from '@/lib/api'
+import { CreateMusic, Music } from '@/types/music'
 
 export async function createMusic(musicData: CreateMusic) {
-  return await apiFetch(`/music/${musicData.ministryId}`, {
-    method: 'POST',
-    body: JSON.stringify(musicData),
-  })
+  try {
+    const response = await api.post<Music>(`/music/${musicData.ministryId}`, {
+      name: musicData.name,
+      artist: musicData.artist,
+    })
+
+    return response.data
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
 }

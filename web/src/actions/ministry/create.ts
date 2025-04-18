@@ -1,21 +1,17 @@
 'use server'
 
-import { apiFetch } from '@/lib/apiFetch'
-import { getUser } from '@/lib/session'
+import api from '@/lib/api'
 import { CreateMinistry, Ministry } from '@/types/ministry'
 
 export async function createMinistry({ name }: CreateMinistry) {
-  const user = await getUser()
-
-  if (!user) {
-    throw new Error('The user must be logged in to create a ministry')
-  }
-
-  return await apiFetch<Ministry>('/ministry', {
-    method: 'POST',
-    body: JSON.stringify({
+  try {
+    const response = await api.post<Ministry>('/ministry', {
       name,
-      userId: user.id,
-    }),
-  })
+    })
+
+    return response.data
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
 }

@@ -1,8 +1,15 @@
 'use server'
 
-import { apiFetch } from '@/lib/apiFetch'
+import api from '@/lib/api'
 import { Music } from '@/types/music'
 
 export async function getMinistryMusics(ministryId: string) {
-  return await apiFetch<Music[]>(`/music/${ministryId}`)
+  try {
+    const response = await api.get<Music[]>(`/music/${ministryId}`)
+
+    return response.data
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
 }
