@@ -5,7 +5,7 @@ export default async function middleware(req: NextRequest) {
   const user = await getUser()
 
   if (!user) {
-    return NextResponse.redirect(new URL('/auth/sign-in', req.nextUrl))
+    return NextResponse.redirect(new URL('/', req.nextUrl))
   }
 
   const ministryId = user.ministryId
