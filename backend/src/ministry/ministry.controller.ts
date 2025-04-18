@@ -13,9 +13,11 @@ export class MinistryController {
   constructor(private readonly ministryService: MinistryService) {}
 
   @Post()
-  async createMinistry(@Body() body: CreateMinistryDto) {
+  async createMinistry(
+    @Body() body: CreateMinistryDto,
+    @GetUser('id') userId: number,
+  ) {
     const ministryName = body.name
-    const userId = body.userId
 
     if (!userId) {
       throw new Error('User id is missing')
