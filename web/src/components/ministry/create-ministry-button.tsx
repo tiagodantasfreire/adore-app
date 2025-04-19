@@ -1,10 +1,9 @@
 'use client'
-import { useState } from 'react'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useRouter } from 'next/navigation'
 
-import { createMinistry } from '@/actions/ministry/create'
-import { CreateMinistryResponse } from '@/types/ministry'
+import { useState } from 'react'
+import { PlusIcon } from 'lucide-react'
+
+import { useCreateMinistry } from '@/services/ministry/useCreateMinistry'
 
 import ErrorText from '../error-text'
 import { Button } from '../ui/button'
@@ -18,30 +17,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '../ui/dialog'
-import { PlusIcon } from 'lucide-react'
 
 export default function CreateMinistryButton() {
   const [error, setError] = useState<string | null>(null)
   const [isCreateMinistryModalOpen, setIsCreateMinistryModalOpen] =
     useState(false)
 
-  const queryClient = useQueryClient()
-  const router = useRouter()
-
-  const mutation = useMutation({
-    mutationKey: ['create-ministry'],
-    mutationFn: createMinistry,
-    onError: (err: Error) => {
-      setError(err.message)
-    },
-    onSuccess: (data: CreateMinistryResponse) => {
-      setIsCreateMinistryModalOpen(false)
-      setError(null)
-
-      queryClient.invalidateQueries({ queryKey: ['get-ministries'] })
-      router.push(`/ministerio/${data.id}`)
-    },
-  })
+  const { mutate: createMinistry, isPending } = useCreateMinistry()
 
   const handleSubmit = async (formData: FormData) => {
     setError(null)
@@ -53,9 +35,7 @@ export default function CreateMinistryButton() {
       return
     }
 
-    try {
-      await mutation.mutateAsync({ name })
-    } catch {}
+    await createMinistry(name)
   }
 
   const handleClearErrors = () => {
@@ -99,7 +79,7 @@ export default function CreateMinistryButton() {
             <Button
               type="submit"
               variant="secondary"
-              isLoading={mutation.isPending}
+              isLoading={isPending}
               size="full"
             >
               Criar ministério

@@ -27,16 +27,16 @@ const formSchema = z.object({
   serviceName: z.string().optional(),
 })
 
-export type AddSongFormValues = z.infer<typeof formSchema>
+export type AddMusicFormValues = z.infer<typeof formSchema>
 
-interface AddSongFormProps {
+interface AddMusicFormProps {
   ministryId: string
 }
 
-export default function AddSongForm({ ministryId }: AddSongFormProps) {
+export function AddMusicForm({ ministryId }: AddMusicFormProps) {
   const [showServiceName, setShowServiceName] = useState(false)
 
-  const form = useForm<AddSongFormValues>({
+  const form = useForm<AddMusicFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
@@ -47,19 +47,14 @@ export default function AddSongForm({ ministryId }: AddSongFormProps) {
     },
   })
 
-  const { mutate: createMusic, isPending, isError, error } = useCreateMusic()
+  const { mutate: createMusic, isPending } = useCreateMusic()
 
-  const onSubmit = (data: AddSongFormValues) => {
+  const onSubmit = (data: AddMusicFormValues) => {
     createMusic({ ...data, ministryId })
   }
 
   return (
     <Form {...form}>
-      {/* TODO: Add a toast to show the error */}
-      {isError && (
-        <div className="text-destructive font-bold">{error.message}</div>
-      )}
-
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col gap-4"

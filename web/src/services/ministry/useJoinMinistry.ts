@@ -1,19 +1,18 @@
-'use client'
-
 import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { AxiosError } from 'axios'
 
-import { joinMinistry } from '@/actions/ministry/join'
-import { ApiErrorResponse } from '@/lib/api'
+import api, { ApiErrorResponse } from '@/lib/api'
+import { Ministry } from '@/types/ministry'
 
 export function useJoinMinistry() {
   const router = useRouter()
 
   return useMutation({
-    mutationFn: (accessCode: string) => joinMinistry(accessCode),
-    onSuccess: (ministry) => {
+    mutationFn: (accessCode: string) =>
+      api.post<Ministry>(`/ministry/${accessCode}/join`),
+    onSuccess: ({ data: ministry }) => {
       const ministryName = ministry.name
       toast.success(`Você foi adicionado ao ministério ${ministryName}`)
       router.push(`/ministerio/${ministry.id}`)

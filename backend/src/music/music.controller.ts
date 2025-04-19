@@ -1,4 +1,12 @@
-import { Controller, Post, Body, UseGuards, Get, Param } from '@nestjs/common'
+import {
+  Controller,
+  Post,
+  Body,
+  UseGuards,
+  Get,
+  Param,
+  Delete,
+} from '@nestjs/common'
 
 import { MusicService } from './music.service'
 import { CreateMusicDto } from './dto/create-music.dto'
@@ -25,18 +33,19 @@ export class MusicController {
   async createMusic(
     @GetUser('id') userId: number,
     @Param('id') id: string,
-    @Body() musicData: CreateMusicDto,
+    @Body() musicData: Omit<CreateMusicDto, 'userId' | 'ministryId'>,
   ) {
     const createdMusic = await this.musicService.createMusic({
-      artist: musicData.artist,
-      date: musicData.date,
-      ministryId: id,
-      name: musicData.name,
-      singer: musicData.singer,
-      tone: musicData.tone,
+      ...musicData,
       userId,
+      ministryId: id,
     })
 
     return createdMusic
+  }
+
+  @Delete('/:id')
+  async deleteMusic(@Param('id') id: string) {
+    await this.musicService.deleteMusic(id)
   }
 }

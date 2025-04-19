@@ -28,6 +28,17 @@ export class MinistryService {
   async getById(id: string) {
     return this.prisma.ministry.findUnique({
       where: { id },
+      include: {
+        createdBy: {
+          select: {
+            firstName: true,
+            lastName: true,
+          },
+        },
+      },
+      omit: {
+        userId: true,
+      },
     })
   }
 

@@ -24,7 +24,6 @@ export async function deleteSession() {
 
   cookies.delete({
     name: 'session',
-    httpOnly: true,
     path: '/',
     secure: isProduction,
     domain,

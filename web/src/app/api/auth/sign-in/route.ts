@@ -21,7 +21,6 @@ export async function GET(req: NextRequest) {
   response.cookies.set({
     name: 'session',
     value: token,
-    httpOnly: true,
     path: '/',
     expires: expiredAt,
     secure: isProduction,

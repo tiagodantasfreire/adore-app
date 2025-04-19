@@ -1,11 +1,12 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { getMinistryMusics } from '@/actions/music/get-ministry-musics'
+import { Music } from '@/types/music'
+import api from '@/lib/api'
 
 export function useGetMinistryMusics(ministryId: string) {
   return useQuery({
     queryKey: ['ministryMusics', ministryId],
-    queryFn: () => getMinistryMusics(ministryId),
+    queryFn: () => api.get<Music[]>(`/music/${ministryId}`),
   })
 }

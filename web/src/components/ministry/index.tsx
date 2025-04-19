@@ -6,11 +6,13 @@ interface MinistryProps {
 }
 
 export default function Ministry({ id }: MinistryProps) {
-  const { data: ministry } = useGetMinistry(id)
+  const { data } = useGetMinistry(id)
+  const ministry = data?.data
 
   return (
     <div>
       <p>Bem vindo ao ministério {ministry?.name}</p>
+      <span>Código de acesso: {ministry?.accessCode}</span>
     </div>
   )
 }

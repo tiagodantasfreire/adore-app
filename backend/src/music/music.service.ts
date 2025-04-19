@@ -3,6 +3,7 @@ import { Tone } from '@prisma/client'
 
 import { PrismaService } from 'src/prisma/prisma.service'
 import { CreateMusicDto } from './dto/create-music.dto'
+
 @Injectable()
 export class MusicService {
   constructor(private prisma: PrismaService) {}
@@ -15,25 +16,31 @@ export class MusicService {
     })
   }
 
-  async createMusic(musicData: CreateMusicDto) {
+  async createMusic(music: CreateMusicDto) {
     return this.prisma.music.create({
       data: {
-        artist: musicData.artist,
-        date: musicData.date,
-        name: musicData.name,
-        singer: musicData.singer,
-        tone: musicData.tone as Tone,
+        artist: music.artist,
+        date: music.date,
+        name: music.name,
+        singer: music.singer,
+        tone: music.tone as Tone,
         createdBy: {
           connect: {
-            id: musicData.userId,
+            id: music.userId,
           },
         },
         ministry: {
           connect: {
-            id: musicData.ministryId,
+            id: music.ministryId,
           },
         },
       },
+    })
+  }
+
+  async deleteMusic(musicId: string) {
+    return this.prisma.music.delete({
+      where: { id: musicId },
     })
   }
 }

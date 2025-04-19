@@ -1,7 +1,9 @@
 'use client'
-import { useExitMinistry } from '@/services/ministry/useExitMinistry'
+
 import { Button } from '../ui/button'
 import { useGetMinistryMusics } from '@/services/music/useGetMinistryMusics'
+import { useExitMinistry } from '@/services/ministry/useExitMinistry'
+import { useDeleteMusic } from '@/services/music/useDeleteMusic'
 
 interface ExitMinistryButtonProps {
   id: string
@@ -11,11 +13,12 @@ export default function ExitMinistryButton({ id }: ExitMinistryButtonProps) {
   const { mutate: exitMinistry, isPending } = useExitMinistry()
 
   const { data: musics } = useGetMinistryMusics(id)
+  const { mutate: deleteMusic, isPending: isDeletingMusic } = useDeleteMusic()
 
   return (
     <>
       <div className="flex flex-col gap-4">
-        {musics?.map((music) => (
+        {musics?.data?.map((music) => (
           <div
             key={music.id}
             className="flex flex-col gap-2 border rounded-md p-4"
@@ -25,9 +28,19 @@ export default function ExitMinistryButton({ id }: ExitMinistryButtonProps) {
             <p>{music.singer}</p>
             <p>{music.tone}</p>
             <p>{music.date}</p>
+
+            <Button
+              variant="destructive-outline"
+              size="sm"
+              onClick={() => deleteMusic(music.id)}
+              isLoading={isDeletingMusic}
+            >
+              Deletar
+            </Button>
           </div>
         ))}
       </div>
+
       <Button
         variant="destructive-outline"
         size="full"

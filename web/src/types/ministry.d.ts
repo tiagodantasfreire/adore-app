@@ -11,7 +11,7 @@ export interface CreateMinistryResponse {
 export type Ministry = {
   id: string
   name: string
-  userId: number
+  accessCode: string
   createdBy: {
     firstName: string
     lastName: string

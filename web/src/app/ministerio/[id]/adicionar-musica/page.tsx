@@ -1,5 +1,7 @@
-import AddSongForm from '@/components/song/add-song-form'
 import Link from 'next/link'
+
+import { AddMusicForm } from '@/components/music/add-music-form'
+
 interface AddMusicPageProps {
   params: Promise<{ id: string }>
 }
@@ -12,7 +14,7 @@ export default async function AddMusicPage({ params }: AddMusicPageProps) {
       <Link href={`/ministerio/${id}`}>Voltar</Link>
 
       <h1 className="text-2xl font-bold">Adicionar música</h1>
-      <AddSongForm ministryId={id} />
+      <AddMusicForm ministryId={id} />
     </div>
   )
 }

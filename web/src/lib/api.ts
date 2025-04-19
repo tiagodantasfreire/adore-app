@@ -1,7 +1,4 @@
 import axios, { AxiosInstance, AxiosError } from 'axios'
-import { cookies as nextCookies } from 'next/headers'
-
-import { env } from './env'
 
 export interface ApiErrorResponse {
   message: string
@@ -11,17 +8,29 @@ export interface ApiErrorResponse {
 }
 
 export const api: AxiosInstance = axios.create({
-  baseURL: env.BACKEND_URL,
+  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
   headers: {
     'Content-Type': 'application/json',
   },
   timeout: 10000,
 })
 
+const getTokenFromCookies = () => {
+  if (typeof document === 'undefined') return null
+
+  const cookies = document.cookie.split(';')
+  for (const cookie of cookies) {
+    const [name, value] = cookie.trim().split('=')
+    if (name === 'session') {
+      return value
+    }
+  }
+  return null
+}
+
 api.interceptors.request.use(
   async (config) => {
-    const cookies = await nextCookies()
-    const token = cookies.get('session')?.value
+    const token = getTokenFromCookies()
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`

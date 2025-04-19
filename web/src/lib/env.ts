@@ -1,6 +1,7 @@
 import { z } from 'zod'
 
 const envSchema = z.object({
+  NEXT_PUBLIC_BACKEND_URL: z.string(),
   BACKEND_URL: z.string(),
   WEB_URL: z.string(),
 })
