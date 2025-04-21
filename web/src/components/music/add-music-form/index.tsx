@@ -5,16 +5,20 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 
+import { useCreateMusic } from '@/services/music/useCreateMusic'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/form'
+
 import { DatePicker } from './date-picker'
-import { Input } from '../ui/input'
-import { Button } from '../ui/button'
 import { ToneSelect } from './tone-select'
 import { SingerSelect } from './singer-select'
-import { Switch } from '../ui/switch'
-import { Label } from '../ui/label'
-import { Form, FormControl, FormField, FormItem, FormMessage } from '../ui/form'
-import { useCreateMusic } from '@/services/music/useCreateMusic'
-// TODO: Get service names from the database
 
 const formSchema = z.object({
   name: z.string().min(2, 'Nome da música é obrigatório'),
@@ -24,7 +28,6 @@ const formSchema = z.object({
   date: z.date({
     required_error: 'Data é obrigatória',
   }),
-  serviceName: z.string().optional(),
 })
 
 export type AddMusicFormValues = z.infer<typeof formSchema>
@@ -34,7 +37,7 @@ interface AddMusicFormProps {
 }
 
 export function AddMusicForm({ ministryId }: AddMusicFormProps) {
-  const [showServiceName, setShowServiceName] = useState(false)
+  const [singerId, setSingerId] = useState<number | undefined>(undefined)
 
   const form = useForm<AddMusicFormValues>({
     resolver: zodResolver(formSchema),
@@ -43,14 +46,17 @@ export function AddMusicForm({ ministryId }: AddMusicFormProps) {
       artist: '',
       singer: '',
       tone: '',
-      serviceName: '',
     },
   })
 
   const { mutate: createMusic, isPending } = useCreateMusic()
 
+  const handleSelectSinger = (singerId: number) => {
+    setSingerId(singerId)
+  }
+
   const onSubmit = (data: AddMusicFormValues) => {
-    createMusic({ ...data, ministryId })
+    createMusic({ ...data, ministryId, singerId })
   }
 
   return (
@@ -92,12 +98,14 @@ export function AddMusicForm({ ministryId }: AddMusicFormProps) {
             <FormItem>
               <FormControl>
                 <SingerSelect
+                  ministryId={ministryId}
                   value={field.value}
                   onChange={field.onChange}
                   name={field.name}
                   onBlur={field.onBlur}
                   disabled={field.disabled}
                   hasError={!!fieldState.error}
+                  onSelectSinger={handleSelectSinger}
                 />
               </FormControl>
               <FormMessage />
@@ -146,38 +154,6 @@ export function AddMusicForm({ ministryId }: AddMusicFormProps) {
             )}
           />
         </div>
-
-        <div className="flex items-center gap-2">
-          <Switch
-            id="service-name"
-            checked={showServiceName}
-            onCheckedChange={setShowServiceName}
-          />
-          <Label
-            htmlFor="service-name"
-            className="text-sm text-muted-foreground"
-          >
-            Deseja identificar esse culto com um nome?
-          </Label>
-        </div>
-
-        {showServiceName && (
-          <FormField
-            control={form.control}
-            name="serviceName"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input
-                    placeholder="Nome do culto (Ex: Culto de Jovens, Santa Ceia)"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        )}
 
         <Button type="submit" disabled={isPending}>
           {isPending ? 'Salvando...' : 'Salvar música'}

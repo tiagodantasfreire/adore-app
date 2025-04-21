@@ -7,6 +7,9 @@ import api from '@/lib/api'
 export function useGetMinistryMusics(ministryId: string) {
   return useQuery({
     queryKey: ['ministryMusics', ministryId],
-    queryFn: () => api.get<Music[]>(`/music/${ministryId}`),
+    queryFn: () => api.get<Music[]>(`/ministry/${ministryId}/music`),
+    select(data) {
+      return data.data
+    },
   })
 }

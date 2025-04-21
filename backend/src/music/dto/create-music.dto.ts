@@ -1,4 +1,4 @@
-import { IsDate, IsNumber, IsOptional, IsString } from 'class-validator'
+import { IsDate, IsNumber, IsString } from 'class-validator'
 
 export class CreateMusicDto {
   @IsString()
@@ -6,6 +6,9 @@ export class CreateMusicDto {
 
   @IsString()
   artist: string
+
+  @IsNumber()
+  singerId: number
 
   @IsString()
   singer: string
@@ -15,10 +18,6 @@ export class CreateMusicDto {
 
   @IsDate()
   date: Date
-
-  @IsString()
-  @IsOptional()
-  serviceName?: string
 
   @IsNumber()
   userId: number

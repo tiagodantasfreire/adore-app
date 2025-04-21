@@ -1,11 +1,12 @@
+import { Singer } from './singer'
+
 export interface CreateMusic {
   name: string
   artist: string
-  singer: string
   tone: string
   date: Date
-  serviceName?: string
   ministryId: string
+  singerId?: number
 }
 
 export interface Music {
@@ -15,8 +16,7 @@ export interface Music {
   id: string
   ministryId: string
   name: string
-  serviceName: string | null
-  singer: string
+  singer: Singer
   tone: string
   updatedAt: string
   userId: string

@@ -12,40 +12,36 @@ import { MusicService } from './music.service'
 import { CreateMusicDto } from './dto/create-music.dto'
 import { RequireAuthHeaderGuard } from 'src/guards/require-auth-header.guard'
 import { GetUser } from 'src/auth/decorators/get-user.decorator'
-import { UserService } from 'src/user/user.service'
 
-@Controller('/music')
+@Controller('/ministry/:ministryId/music')
 @UseGuards(RequireAuthHeaderGuard)
 export class MusicController {
-  constructor(
-    private readonly musicService: MusicService,
-    private readonly userService: UserService,
-  ) {}
+  constructor(private readonly musicService: MusicService) {}
 
-  @Get('/:id')
-  async getMinistryMusics(@Param('id') id: string) {
-    const music = await this.musicService.getMinistryMusics(id)
+  @Get()
+  async getMinistryMusics(@Param('ministryId') ministryId: string) {
+    const music = await this.musicService.getMinistryMusics(ministryId)
 
     return music
   }
 
-  @Post('/:id')
+  @Post()
   async createMusic(
     @GetUser('id') userId: number,
-    @Param('id') id: string,
+    @Param('ministryId') ministryId: string,
     @Body() musicData: Omit<CreateMusicDto, 'userId' | 'ministryId'>,
   ) {
     const createdMusic = await this.musicService.createMusic({
       ...musicData,
       userId,
-      ministryId: id,
+      ministryId,
     })
 
     return createdMusic
   }
 
-  @Delete('/:id')
-  async deleteMusic(@Param('id') id: string) {
-    await this.musicService.deleteMusic(id)
+  @Delete('/:musicId')
+  async deleteMusic(@Param('musicId') musicId: string) {
+    await this.musicService.deleteMusic(musicId)
   }
 }

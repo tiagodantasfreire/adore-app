@@ -13,6 +13,9 @@ export class MusicService {
       where: {
         ministryId: ministryId,
       },
+      include: {
+        singer: true,
+      },
     })
   }
 
@@ -22,8 +25,18 @@ export class MusicService {
         artist: music.artist,
         date: music.date,
         name: music.name,
-        singer: music.singer,
         tone: music.tone as Tone,
+        singer: {
+          connectOrCreate: {
+            where: {
+              id: music.singerId ?? 0,
+            },
+            create: {
+              ministryId: music.ministryId,
+              name: music.singer,
+            },
+          },
+        },
         createdBy: {
           connect: {
             id: music.userId,

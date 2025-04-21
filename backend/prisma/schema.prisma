@@ -29,32 +29,15 @@ model User {
 }
 
 model Ministry {
-  id         String @id @default(uuid())
+  id         String   @id @default(uuid())
   name       String
-  createdBy  User   @relation("MinistryCreator", fields: [userId], references: [id])
+  createdBy  User     @relation("MinistryCreator", fields: [userId], references: [id])
   userId     Int
-  accessCode String @unique
+  accessCode String   @unique
+  singers    Singer[]
 
   members User[]  @relation("MinistryMember")
   music   Music[] @relation("MusicCreator")
-}
-
-model Music {
-  id          String   @id @default(uuid())
-  name        String
-  artist      String
-  singer      String
-  tone        Tone
-  date        DateTime
-  serviceName String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  createdBy User @relation("MusicCreator", fields: [userId], references: [id])
-  userId    Int
-
-  ministry   Ministry @relation("MusicCreator", fields: [ministryId], references: [id])
-  ministryId String
 }
 
 enum Tone {
@@ -70,4 +53,34 @@ enum Tone {
   F_sharp @map("F#")
   G
   G_sharp @map("G#")
+}
+
+model Music {
+  id        String   @id @default(uuid())
+  name      String
+  artist    String
+  tone      Tone
+  date      DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  createdBy User @relation("MusicCreator", fields: [userId], references: [id])
+  userId    Int
+
+  ministry   Ministry @relation("MusicCreator", fields: [ministryId], references: [id])
+  ministryId String
+
+  singer   Singer? @relation("MusicSinger", fields: [singerId], references: [id])
+  singerId Int?
+}
+
+model Singer {
+  id        Int      @id @default(autoincrement())
+  name      String
+  musics    Music[]  @relation("MusicSinger")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  ministry   Ministry @relation(fields: [ministryId], references: [id])
+  ministryId String
 }

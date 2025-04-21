@@ -54,7 +54,7 @@ export function DatePicker({
           name={name}
           onBlur={onBlur}
         >
-          <CalendarIcon className="mr-2 h-4 w-4" />
+          <CalendarIcon className="h-4 w-4" />
           {date ? formatDate(date, 'dd/MMM, EEE') : <span>Data do culto</span>}
         </Button>
       </PopoverTrigger>

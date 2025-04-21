@@ -4,12 +4,16 @@ import { toast } from 'sonner'
 
 import api from '@/lib/api'
 
-export function useDeleteMusic() {
+type DeleteMusicProps = {
+  ministryId: string
+}
+
+export function useDeleteMusic({ ministryId }: DeleteMusicProps) {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationKey: ['deleteMusic'],
-    mutationFn: (musicId: string) => api.delete(`/music/${musicId}`),
+    mutationFn: (musicId: string) =>
+      api.delete(`/ministry/${ministryId}/music/${musicId}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['ministryMusics'] })
       toast.success('Música deletada com sucesso')
