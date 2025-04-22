@@ -11,7 +11,19 @@ export class MinistryService {
   constructor(private prisma: PrismaService) {}
 
   async create({ name, userId }: CreateMinistryDto) {
-    const accessCode = this.generateAccessCode()
+    let accessCode = this.generateAccessCode()
+
+    const otherMinistryHasSameAccessCode = await this.prisma.ministry.findFirst(
+      {
+        where: {
+          accessCode,
+        },
+      },
+    )
+
+    if (otherMinistryHasSameAccessCode) {
+      accessCode = this.generateAccessCode()
+    }
 
     return await this.prisma.ministry.create({
       data: {
