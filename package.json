@@ -1,0 +1,14 @@
+{
+  "name": "adore",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:frontend": "cd web && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "install:all": "npm install && cd web && npm install && cd ../backend && npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+} 
