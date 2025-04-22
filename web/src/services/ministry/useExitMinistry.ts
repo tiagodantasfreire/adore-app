@@ -1,17 +1,19 @@
 'use client'
-import { useMutation } from '@tanstack/react-query'
 
+import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
+
 import api from '@/lib/api'
+import { useMinistry } from '@/contexts/ministry-context'
 
 export function useExitMinistry() {
+  const { id } = useMinistry()
   const router = useRouter()
 
   return useMutation({
-    mutationFn: (ministryId: string) =>
-      api.post(`/ministry/${ministryId}/exit`),
+    mutationFn: () => api.post(`/ministry/${id}/exit`),
     onSuccess: () => {
-      router.push('/ministerio')
+      router.push('/')
     },
   })
 }

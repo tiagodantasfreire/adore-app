@@ -13,7 +13,6 @@ function InputOTP({
   ...props
 }: React.ComponentProps<typeof OTPInput> & {
   containerClassName?: string
-  inputMode?: 'text' | 'numeric' | 'tel' | 'email' | 'url' | 'search' | 'none'
 }) {
   return (
     <OTPInput

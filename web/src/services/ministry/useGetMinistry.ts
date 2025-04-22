@@ -1,12 +1,16 @@
 'use client'
+
 import { useQuery } from '@tanstack/react-query'
 
-import { Ministry } from '@/types/ministry'
 import api from '@/lib/api'
+import { Ministry } from '@/types/ministry'
+import { useMinistry } from '@/contexts/ministry-context'
 
-export function useGetMinistry(ministryId: string) {
+export function useGetMinistry() {
+  const { id } = useMinistry()
+
   return useQuery({
-    queryKey: ['ministry', ministryId],
-    queryFn: () => api.get<Ministry>(`/ministry/${ministryId}`),
+    queryKey: ['ministry', id],
+    queryFn: () => api.get<Ministry>(`/ministry/${id}`),
   })
 }

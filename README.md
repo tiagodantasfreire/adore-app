@@ -1,8 +1,7 @@
 # Adore App
 
 ### To Do
-- [] Add musics functionality
-- [] Ministries pagination
+- [] User and password login
 - [] User info popover
 - [] Create singers
 - [] Show musics

@@ -1,22 +1,16 @@
-import Link from 'next/link'
-
-import Ministry from '@/components/ministry'
-import ExitMinistryButton from '@/components/ministry/exit-ministry-button'
+import { Ministry } from '@/components/ministry'
+import { ExitMinistryButton } from '@/components/ministry/exit-ministry-button'
 import { MusicList } from '@/components/music/music-list'
+import { AddMusicButton } from '@/components/music/add-music-button'
 
-interface MinistryPageProps {
-  params: Promise<{ id: string }>
-}
-
-export default async function MinistryPage({ params }: MinistryPageProps) {
-  const { id } = await params
-
+export default async function MinistryPage() {
   return (
-    <div className="flex flex-col items-center justify-center gap-4">
-      <Ministry id={id} />
-      <Link href={`/ministerio/${id}/adicionar-musica`}>Adicionar música</Link>
-      <MusicList ministryId={id} />
-      <ExitMinistryButton id={id} />
+    <div className="flex flex-col gap-4">
+      <Ministry />
+      <AddMusicButton />
+
+      <MusicList />
+      <ExitMinistryButton />
     </div>
   )
 }

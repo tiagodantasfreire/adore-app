@@ -4,18 +4,14 @@ import { useExitMinistry } from '@/services/ministry/useExitMinistry'
 
 import { Button } from '../ui/button'
 
-interface ExitMinistryButtonProps {
-  id: string
-}
-
-export default function ExitMinistryButton({ id }: ExitMinistryButtonProps) {
+export function ExitMinistryButton() {
   const { mutate: exitMinistry, isPending } = useExitMinistry()
 
   return (
     <Button
       variant="destructive-outline"
       size="full"
-      onClick={() => exitMinistry(id)}
+      onClick={() => exitMinistry()}
       isLoading={isPending}
     >
       {isPending ? 'Saindo...' : 'Sair do Ministério'}

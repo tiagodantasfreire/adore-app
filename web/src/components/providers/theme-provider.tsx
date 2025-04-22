@@ -12,7 +12,7 @@ export function ThemeProvider({
   return (
     <NextThemesProvider {...props}>
       {children}
-      <Toaster richColors position="top-center" />
+      <Toaster richColors />
     </NextThemesProvider>
   )
 }

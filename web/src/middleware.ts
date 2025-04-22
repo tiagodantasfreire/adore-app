@@ -27,7 +27,7 @@ export default async function middleware(req: NextRequest) {
 
     // If user doesn't have a ministry, redirect to join page
     if (!ministryId) {
-      return NextResponse.redirect(new URL('/ministerio', req.nextUrl))
+      return NextResponse.redirect(new URL('/', req.nextUrl))
     }
 
     // If user is trying to access a ministry they're not part of

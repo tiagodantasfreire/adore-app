@@ -1,12 +1,9 @@
 'use client'
+
 import { useGetMinistry } from '@/services/ministry/useGetMinistry'
 
-interface MinistryProps {
-  id: string
-}
-
-export default function Ministry({ id }: MinistryProps) {
-  const { data } = useGetMinistry(id)
+export function Ministry() {
+  const { data } = useGetMinistry()
   const ministry = data?.data
 
   return (
