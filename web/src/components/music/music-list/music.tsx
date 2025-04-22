@@ -1,4 +1,5 @@
-import { format } from 'date-fns'
+// import Link from 'next/link'
+import { ChevronRight } from 'lucide-react'
 
 import { Music as MusicType } from '@/types/music'
 
@@ -7,15 +8,16 @@ interface MusicProps {
 }
 
 export function Music({ music }: MusicProps) {
-  const date = format(new Date(music.date), 'dd/MM/yyyy')
-
   return (
-    <div className="flex flex-col gap-2 p-4 rounded-md border border-gray-200 w-full">
-      <p>Música: {music.name}</p>
-      <p>Artista: {music.artist}</p>
-      <p>Ministro: {music.singer.name}</p>
-      <p>Tom: {music.tone}</p>
-      <p>Data: {date}</p>
+    <div className="flex justify-between items-center w-full bg-muted/75 rounded-md p-4">
+      <div className="flex flex-col">
+        <p className="text-md font-bold">{music.name}</p>
+        <p className="text-sm text-muted-foreground">{music.artist}</p>
+      </div>
+
+      {/* <Link href={`/music/${music.id}`}> */}
+      <ChevronRight size={22} />
+      {/* </Link> */}
     </div>
   )
 }

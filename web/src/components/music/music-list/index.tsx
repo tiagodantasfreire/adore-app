@@ -12,11 +12,7 @@ export function MusicList({ ministryId }: MusicListProps) {
 
   return (
     <div className="flex flex-col gap-4 w-full">
-      {musics?.map((music) => (
-        <div key={music.id} className="w-full">
-          <Music music={music} />
-        </div>
-      ))}
+      {musics?.map((music) => <Music music={music} key={music.id} />)}
     </div>
   )
 }
