@@ -6,7 +6,6 @@
 - [] Musics, singers navigation tabs
 - [] User info popover
 - [] Create singers
-- [] Show musics
 - [] Add music lyrics
 - [] Ministry settings
   - [] Users roles
