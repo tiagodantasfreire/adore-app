@@ -79,10 +79,4 @@ export class MinistryController {
 
     return ministry
   }
-
-  @Get('/:id/singers')
-  async getSingers(@Param('id') id: string) {
-    const singers = await this.ministryService.getSingers(id)
-    return singers?.map(({ singer }) => singer)
-  }
 }

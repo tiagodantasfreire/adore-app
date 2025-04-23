@@ -19,6 +19,15 @@ export class MusicService {
     })
   }
 
+  async getMinistryMusicsBySinger(ministryId: string, singerId: number) {
+    return this.prisma.music.findMany({
+      where: {
+        ministryId: ministryId,
+        singerId: singerId,
+      },
+    })
+  }
+
   async createMusic(music: CreateMusicDto) {
     return this.prisma.music.create({
       data: {

@@ -32,11 +32,7 @@ const formSchema = z.object({
 
 export type AddMusicFormValues = z.infer<typeof formSchema>
 
-interface AddMusicFormProps {
-  ministryId: string
-}
-
-export function AddMusicForm({ ministryId }: AddMusicFormProps) {
+export function AddMusicForm() {
   const [singerId, setSingerId] = useState<number | undefined>(undefined)
 
   const form = useForm<AddMusicFormValues>({
@@ -56,7 +52,7 @@ export function AddMusicForm({ ministryId }: AddMusicFormProps) {
   }
 
   const onSubmit = (data: AddMusicFormValues) => {
-    createMusic({ ...data, ministryId, singerId })
+    createMusic({ ...data, singerId })
   }
 
   return (
@@ -98,7 +94,6 @@ export function AddMusicForm({ ministryId }: AddMusicFormProps) {
             <FormItem>
               <FormControl>
                 <SingerSelect
-                  ministryId={ministryId}
                   value={field.value}
                   onChange={field.onChange}
                   name={field.name}

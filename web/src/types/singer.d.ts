@@ -4,4 +4,7 @@ export interface Singer {
   ministryId: string
   createdAt: string
   updatedAt: string
+  _count: {
+    musics: number
+  }
 }

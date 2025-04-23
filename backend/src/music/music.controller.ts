@@ -6,6 +6,7 @@ import {
   Get,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common'
 
 import { MusicService } from './music.service'
@@ -19,10 +20,18 @@ export class MusicController {
   constructor(private readonly musicService: MusicService) {}
 
   @Get()
-  async getMinistryMusics(@Param('ministryId') ministryId: string) {
-    const music = await this.musicService.getMinistryMusics(ministryId)
+  async getMinistryMusics(
+    @Param('ministryId') ministryId: string,
+    @Query('singerId') singerId?: string,
+  ) {
+    if (singerId) {
+      return this.musicService.getMinistryMusicsBySinger(
+        ministryId,
+        Number(singerId),
+      )
+    }
 
-    return music
+    return this.musicService.getMinistryMusics(ministryId)
   }
 
   @Post()
@@ -31,13 +40,11 @@ export class MusicController {
     @Param('ministryId') ministryId: string,
     @Body() musicData: Omit<CreateMusicDto, 'userId' | 'ministryId'>,
   ) {
-    const createdMusic = await this.musicService.createMusic({
+    return this.musicService.createMusic({
       ...musicData,
       userId,
       ministryId,
     })
-
-    return createdMusic
   }
 
   @Delete('/:musicId')

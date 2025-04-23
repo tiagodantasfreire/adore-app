@@ -5,7 +5,6 @@ export interface CreateMusic {
   artist: string
   tone: string
   date: Date
-  ministryId: string
   singerId?: number
 }
 

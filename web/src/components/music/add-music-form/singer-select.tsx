@@ -28,7 +28,6 @@ interface SingerSelectProps {
   onBlur?: () => void
   disabled?: boolean
   hasError?: boolean
-  ministryId: string
   onSelectSinger: (singerId: number) => void
 }
 
@@ -39,13 +38,12 @@ export function SingerSelect({
   onBlur,
   disabled,
   hasError,
-  ministryId,
   onSelectSinger,
 }: SingerSelectProps) {
   const [open, setOpen] = useState(false)
   const [inputValue, setInputValue] = useState('')
 
-  const { data: singers } = useGetSingers(ministryId)
+  const { data: singers } = useGetSingers()
 
   const handleSelect = (singer: { id?: number; name: string }) => {
     if (singer.id) {

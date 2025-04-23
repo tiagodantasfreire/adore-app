@@ -82,21 +82,4 @@ export class MinistryService {
       where: { accessCode },
     })
   }
-
-  async getSingers(ministryId: string) {
-    return this.prisma.music.findMany({
-      where: {
-        ministryId: ministryId,
-      },
-      select: {
-        singer: true,
-      },
-      orderBy: {
-        singer: {
-          name: 'asc',
-        },
-      },
-      distinct: ['singerId'],
-    })
-  }
 }

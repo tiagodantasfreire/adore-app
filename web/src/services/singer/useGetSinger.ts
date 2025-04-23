@@ -2,21 +2,16 @@
 
 import { useQuery } from '@tanstack/react-query'
 
-import { Music } from '@/types/music'
 import api from '@/lib/api'
+import { Singer } from '@/types/singer'
 import { useMinistry } from '@/contexts/ministry-context'
 
-export function useGetMinistryMusics() {
+export function useGetSinger() {
   const { id, singerId } = useMinistry()
 
   return useQuery({
-    queryKey: ['ministryMusics', id, singerId],
-    queryFn: () =>
-      api.get<Music[]>(`/ministry/${id}/music`, {
-        params: {
-          singerId,
-        },
-      }),
+    queryKey: ['singer', singerId],
+    queryFn: () => api.get<Singer>(`/ministry/${id}/singers/${singerId}`),
     select(data) {
       return data.data
     },
