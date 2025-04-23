@@ -14,7 +14,7 @@ export default async function AddMusicPage({ params }: AddMusicPageProps) {
       <Link href={`/ministerio/${id}`}>Voltar</Link>
 
       <h1 className="text-2xl font-bold">Adicionar música</h1>
-      <AddMusicForm ministryId={id} />
+      <AddMusicForm />
     </div>
   )
 }
