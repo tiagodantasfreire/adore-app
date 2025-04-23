@@ -2,6 +2,8 @@
 
 ### To Do
 - [] User and password login
+- [] Music suggestions while adding a new music (Musixmatch API)
+- [] Musics, singers navigation tabs
 - [] User info popover
 - [] Create singers
 - [] Show musics
