@@ -1,8 +1,8 @@
-import { IsNumber, IsString } from 'class-validator'
+import { IsNumber } from 'class-validator'
 
 export class JoinMinistryDto {
-  @IsString()
-  ministryId: string
+  @IsNumber()
+  ministryId: number
 
   @IsNumber()
   userId: number

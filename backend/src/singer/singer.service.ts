@@ -6,7 +6,7 @@ import { PrismaService } from 'src/prisma/prisma.service'
 export class SingerService {
   constructor(private prisma: PrismaService) {}
 
-  async getSingers(ministryId: string) {
+  async getSingers(ministryId: number) {
     return this.prisma.singer.findMany({
       where: {
         ministryId: ministryId,

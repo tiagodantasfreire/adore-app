@@ -37,7 +37,7 @@ export class MinistryController {
 
   @Get('/:id')
   async getMinistryById(@Param('id') id: string) {
-    const ministry = await this.ministryService.getById(id)
+    const ministry = await this.ministryService.getById(Number(id))
 
     if (!ministry) {
       throw new MinistryNotFoundException()
@@ -68,12 +68,8 @@ export class MinistryController {
 
   @Post('/:id/exit')
   async exitMinistry(@Param('id') id: string, @GetUser('id') userId: number) {
-    if (!userId) {
-      throw new Error('User id is missing')
-    }
-
     const ministry = await this.ministryService.exit({
-      ministryId: id,
+      ministryId: Number(id),
       userId: userId,
     })
 

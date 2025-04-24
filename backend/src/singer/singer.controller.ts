@@ -10,7 +10,7 @@ export class SingerController {
 
   @Get('/')
   async getSingers(@Param('ministryId') ministryId: string) {
-    const singers = await this.singerService.getSingers(ministryId)
+    const singers = await this.singerService.getSingers(Number(ministryId))
     return singers
   }
 

@@ -22,6 +22,6 @@ export class CreateMusicDto {
   @IsNumber()
   userId: number
 
-  @IsString()
-  ministryId: string
+  @IsNumber()
+  ministryId: number
 }

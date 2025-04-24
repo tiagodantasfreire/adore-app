@@ -8,7 +8,7 @@ import { CreateMusicDto } from './dto/create-music.dto'
 export class MusicService {
   constructor(private prisma: PrismaService) {}
 
-  async getMinistryMusics(ministryId: string) {
+  async getMinistryMusics(ministryId: number) {
     return this.prisma.music.findMany({
       where: {
         ministryId: ministryId,
@@ -19,7 +19,7 @@ export class MusicService {
     })
   }
 
-  async getMinistryMusicsBySinger(ministryId: string, singerId: number) {
+  async getMinistryMusicsBySinger(ministryId: number, singerId: number) {
     return this.prisma.music.findMany({
       where: {
         ministryId: ministryId,
@@ -60,7 +60,7 @@ export class MusicService {
     })
   }
 
-  async deleteMusic(musicId: string) {
+  async deleteMusic(musicId: number) {
     return this.prisma.music.delete({
       where: { id: musicId },
     })

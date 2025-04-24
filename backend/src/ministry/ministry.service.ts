@@ -37,7 +37,7 @@ export class MinistryService {
     })
   }
 
-  async getById(id: string) {
+  async getById(id: number) {
     return this.prisma.ministry.findUnique({
       where: { id },
       include: {

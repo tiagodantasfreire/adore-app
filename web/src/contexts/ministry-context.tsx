@@ -16,8 +16,6 @@ export const MinistryContext = createContext<MinistryContextType>({
 export function MinistryProvider({ children }: PropsWithChildren) {
   const { id, singerId } = useParams()
 
-  console.log({ id, singerId })
-
   return (
     <MinistryContext.Provider
       value={{

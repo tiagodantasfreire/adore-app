@@ -26,12 +26,12 @@ export class MusicController {
   ) {
     if (singerId) {
       return this.musicService.getMinistryMusicsBySinger(
-        ministryId,
+        Number(ministryId),
         Number(singerId),
       )
     }
 
-    return this.musicService.getMinistryMusics(ministryId)
+    return this.musicService.getMinistryMusics(Number(ministryId))
   }
 
   @Post()
@@ -43,12 +43,12 @@ export class MusicController {
     return this.musicService.createMusic({
       ...musicData,
       userId,
-      ministryId,
+      ministryId: Number(ministryId),
     })
   }
 
   @Delete('/:musicId')
   async deleteMusic(@Param('musicId') musicId: string) {
-    await this.musicService.deleteMusic(musicId)
+    await this.musicService.deleteMusic(Number(musicId))
   }
 }
