@@ -20,4 +20,9 @@ export class SingerController {
     const singer = await this.singerService.getSinger(Number(singerId))
     return singer
   }
+
+  @Get('/:singerId/musics')
+  async getSingerMusics(@Param('singerId') singerId: string) {
+    return await this.singerService.getSingerMusics(Number(singerId))
+  }
 }

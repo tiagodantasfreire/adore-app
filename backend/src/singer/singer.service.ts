@@ -28,4 +28,10 @@ export class SingerService {
       where: { id: singerId },
     })
   }
+
+  async getSingerMusics(singerId: number) {
+    return this.prisma.music.findMany({
+      where: { singerId },
+    })
+  }
 }
