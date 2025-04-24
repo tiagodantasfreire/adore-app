@@ -9,7 +9,7 @@ interface MusicProps {
 
 export function Music({ music }: MusicProps) {
   return (
-    <div className="flex justify-between items-center w-full bg-muted/75 rounded-md p-4 border border-muted-foreground/25">
+    <div className="flex justify-between items-center w-full bg-muted/75 rounded-md p-4 border border-muted-foreground/25 h-20">
       <div className="flex flex-col">
         <p className="text-md font-bold">{music.name}</p>
         <p className="text-sm text-muted-foreground">{music.artist}</p>
