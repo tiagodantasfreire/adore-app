@@ -1,5 +1,7 @@
 'use client'
 
+import { Heading1 } from '../ui/heading'
+
 import { useGetSinger } from '@/services/singer/useGetSinger'
 
 export function SingerData() {
@@ -7,5 +9,5 @@ export function SingerData() {
 
   if (!singer) return null
 
-  return <h1 className="text-xl font-bold">Músicas da {singer.name}</h1>
+  return <Heading1>Músicas de {singer.name}</Heading1>
 }

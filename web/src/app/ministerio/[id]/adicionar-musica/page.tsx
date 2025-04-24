@@ -1,5 +1,6 @@
 import Link from 'next/link'
 
+import { Heading1 } from '@/components/ui/heading'
 import { AddMusicForm } from '@/components/music/add-music-form'
 
 interface AddMusicPageProps {
@@ -13,7 +14,7 @@ export default async function AddMusicPage({ params }: AddMusicPageProps) {
     <div className="flex flex-col gap-4">
       <Link href={`/ministerio/${id}`}>Voltar</Link>
 
-      <h1 className="text-2xl font-bold">Adicionar música</h1>
+      <Heading1>Adicionar música</Heading1>
       <AddMusicForm />
     </div>
   )
