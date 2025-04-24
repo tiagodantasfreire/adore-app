@@ -15,10 +15,10 @@ async function main() {
     tone: Tone.A,
   })
 
-  const musicsArray = Array.from({ length: 25 }, () => createMusics())
+  const musics = Array.from({ length: 25 }, () => createMusics())
 
   await prisma.music.createMany({
-    data: musicsArray,
+    data: musics,
   })
 }
 
