@@ -1,51 +1,28 @@
-'use client'
+import { ListMusic, Mic } from 'lucide-react'
 
-import Link from 'next/link'
-import { ListMusic, MicVocal } from 'lucide-react'
+import { UserButton } from './user'
+import { NavigationLink } from './navigation-link'
 
-import { useMinistry } from '@/contexts/ministry-context'
-import { usePathname } from 'next/navigation'
-import { cn } from '@/lib/utils'
+const iconSize = 20
 
 export function NavigationBar() {
-  const { id } = useMinistry()
-
   return (
-    <div className="absolute bottom-0 left-0 right-0  p-4 px-6 border-t-2">
-      <div className="grid grid-cols-2 gap-4 items-center justify-center">
-        <NavigationBarItem
-          href={`/ministerio/${id}`}
-          icon={<ListMusic size={20} />}
+    <div className="fixed bottom-0 left-0 right-0 py-4 bg-background border-t-[1px]">
+      <div className="flex gap-4 items-center justify-around text-xs font-light">
+        <NavigationLink
+          href="/ministerio/:id"
+          icon={<ListMusic size={iconSize} />}
+          label="Músicas"
         />
 
-        <NavigationBarItem
-          href={`/ministerio/${id}/ministros`}
-          icon={<MicVocal size={20} />}
+        <NavigationLink
+          href="/ministerio/:id/ministros"
+          icon={<Mic size={iconSize} />}
+          label="Ministros"
         />
+
+        <UserButton size={iconSize} />
       </div>
     </div>
-  )
-}
-
-function NavigationBarItem({
-  href,
-  icon,
-}: {
-  href: string
-  icon: React.ReactNode
-}) {
-  const pathname = usePathname()
-  const isActive = pathname === href
-
-  return (
-    <Link
-      href={href}
-      className={cn(
-        isActive && 'text-primary',
-        'flex items-center justify-center',
-      )}
-    >
-      {icon}
-    </Link>
   )
 }

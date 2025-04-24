@@ -6,9 +6,9 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 
 import { deleteSession } from '@/lib/session'
-import { Button } from './ui/button'
+import { cn } from '@/lib/utils'
 
-export default function LogoutButton() {
+export function LogoutButton() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
 
@@ -29,8 +29,12 @@ export default function LogoutButton() {
   }
 
   return (
-    <Button variant="outline" onClick={handleLogout} disabled={isLoading}>
-      <LogOut className={`text-destructive ${isLoading ? 'opacity-50' : ''}`} />
-    </Button>
+    <div
+      onClick={handleLogout}
+      className="flex items-center gap-2 text-destructive p-0"
+    >
+      <LogOut className={cn('text-destructive', isLoading && 'opacity-50')} />
+      Sair
+    </div>
   )
 }

@@ -40,7 +40,7 @@ export async function getUser(): Promise<User | null> {
 
   const res = await fetch(`${env.BACKEND_URL}/auth/me`, {
     headers: { Authorization: `Bearer ${token}` },
-    cache: 'no-store',
+    cache: 'force-cache',
   })
 
   if (!res.ok) return null

@@ -1,10 +1,8 @@
 # Adore App
 
 ### To Do
-- [] Move user icon to navigation bar
 - [] User and password login
 - [] Music suggestions while adding a new music (Musixmatch API)
-- [] User info popover
 - [] Create singers
 - [] Add music lyrics
 - [] Group settings
