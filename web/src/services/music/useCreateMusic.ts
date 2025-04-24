@@ -6,17 +6,17 @@ import { useRouter } from 'next/navigation'
 
 import api from '@/lib/api'
 import { Music, CreateMusic } from '@/types/music'
-import { useMinistry } from '@/contexts/ministry-context'
+import { useMinistry } from '@/contexts/ministry'
 
 export function useCreateMusic() {
   const queryClient = useQueryClient()
   const router = useRouter()
 
-  const { id } = useMinistry()
+  const { ministryId } = useMinistry()
 
   return useMutation({
     mutationFn: (musicData: CreateMusic) =>
-      api.post<Music>(`/ministry/${id}/music`, musicData),
+      api.post<Music>(`/ministry/${ministryId}/music`, musicData),
     onSuccess: ({ data }) => {
       queryClient.invalidateQueries({ queryKey: ['ministryMusics'] })
       toast.success('Música adicionada com sucesso')

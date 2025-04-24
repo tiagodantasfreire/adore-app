@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation'
 import { Music as MusicType } from '@/types/music'
 
 import { Music } from './music'
-import { AddMusicButton } from '../add-music-button'
+import { AddMusicButton } from './add-music-button'
 import { SearchMusicsInput } from './search-musics-input'
 
 interface MusicListProps {

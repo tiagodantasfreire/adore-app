@@ -4,12 +4,12 @@ import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
 
 import { Singer } from '@/types/singer'
-import { useMinistry } from '@/contexts/ministry-context'
+import { useMinistry } from '@/contexts/ministry'
 
 import { Card, CardTitle, CardDescription, CardContent } from '../ui/card'
 
 export function SingerItem({ singer }: { singer: Singer }) {
-  const { id } = useMinistry()
+  const { ministryId } = useMinistry()
 
   return (
     <Card>
@@ -20,7 +20,7 @@ export function SingerItem({ singer }: { singer: Singer }) {
         </div>
 
         <Link
-          href={`/ministerio/${id}/ministros/${singer.id}`}
+          href={`/ministerio/${ministryId}/ministros/${singer.id}`}
           className="text-sm flex items-center gap-1"
         >
           Ver músicas

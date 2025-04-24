@@ -3,14 +3,14 @@
 import { useQuery } from '@tanstack/react-query'
 import api from '@/lib/api'
 import { Singer } from '@/types/singer'
-import { useMinistry } from '@/contexts/ministry-context'
+import { useMinistry } from '@/contexts/ministry'
 
 export function useGetSingers() {
-  const { id } = useMinistry()
+  const { ministryId } = useMinistry()
 
   return useQuery({
-    queryKey: ['singers', id],
-    queryFn: () => api.get<Singer[]>(`/ministry/${id}/singers`),
+    queryKey: ['singers', ministryId],
+    queryFn: () => api.get<Singer[]>(`/ministry/${ministryId}/singers`),
     select: (data) => data.data,
   })
 }

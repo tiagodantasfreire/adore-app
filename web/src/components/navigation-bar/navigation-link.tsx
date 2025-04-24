@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 
 import { cn } from '@/lib/utils'
-import { useMinistry } from '@/contexts/ministry-context'
+import { useMinistry } from '@/contexts/ministry'
 
 interface NavigationLinkProps {
   href: string
@@ -14,9 +14,9 @@ interface NavigationLinkProps {
 
 export function NavigationLink({ href, icon, label }: NavigationLinkProps) {
   const pathname = usePathname()
-  const { id } = useMinistry()
+  const { ministryId } = useMinistry()
 
-  const parsedHref = href.replace(':id', id)
+  const parsedHref = href.replace(':id', ministryId.toString())
   const isActive = pathname === parsedHref
 
   return (

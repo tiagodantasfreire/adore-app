@@ -4,22 +4,22 @@ import { useParams } from 'next/navigation'
 import { createContext, PropsWithChildren, use } from 'react'
 
 interface MinistryContextType {
-  id: string
+  ministryId: number
   singerId?: number
 }
 
 export const MinistryContext = createContext<MinistryContextType>({
-  id: '',
+  ministryId: 0,
   singerId: undefined,
 })
 
 export function MinistryProvider({ children }: PropsWithChildren) {
-  const { id, singerId } = useParams()
+  const { id: ministryId, singerId } = useParams()
 
   return (
     <MinistryContext.Provider
       value={{
-        id: id as string,
+        ministryId: Number(ministryId),
         singerId: singerId ? Number(singerId) : undefined,
       }}
     >
