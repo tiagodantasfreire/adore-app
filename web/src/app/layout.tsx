@@ -3,8 +3,9 @@ import { Inter } from 'next/font/google'
 import { setDefaultOptions } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 
-import { ThemeProvider } from '@/components/providers/theme-provider'
-import { QueryProvider } from '@/components/providers/query-provider'
+import { ThemeProvider } from '@/providers/theme-provider'
+import { QueryProvider } from '@/providers/query-provider'
+
 import './globals.css'
 
 setDefaultOptions({ locale: ptBR })
