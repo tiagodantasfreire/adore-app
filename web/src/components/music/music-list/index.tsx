@@ -1,13 +1,22 @@
 'use client'
 
-import { useGetMinistryMusics } from '@/services/music/useGetMinistryMusics'
-
-import { Music } from './music'
 import { useSearchParams } from 'next/navigation'
 
-export function MusicList() {
-  const { data: musics } = useGetMinistryMusics()
+import { Music as MusicType } from '@/types/music'
 
+import { Music } from './music'
+import { AddMusicButton } from '../add-music-button'
+import { SearchMusicsInput } from './search-musics-input'
+
+interface MusicListProps {
+  musics: MusicType[] | undefined
+  showAddMusicButton?: boolean
+}
+
+export function MusicList({
+  musics,
+  showAddMusicButton = true,
+}: MusicListProps) {
   const search = useSearchParams()
   const searchValue = search.get('musica')
 
@@ -16,8 +25,15 @@ export function MusicList() {
   )
 
   return (
-    <div className="flex flex-col gap-2 w-full">
-      {filteredMusics?.map((music) => <Music music={music} key={music.id} />)}
+    <div className="flex flex-col gap-4">
+      <div className="flex items-center gap-2">
+        <SearchMusicsInput />
+        {showAddMusicButton && <AddMusicButton />}
+      </div>
+
+      <div className="flex flex-col gap-2 w-full">
+        {filteredMusics?.map((music) => <Music music={music} key={music.id} />)}
+      </div>
     </div>
   )
 }
