@@ -6,6 +6,7 @@ import { CreateMinistryDto } from './dto/create-ministry.dto'
 import { GetUser } from 'src/auth/decorators/get-user.decorator'
 import { MinistryNotFoundException } from 'src/exceptions/ministry-not-found.exception'
 import { MinistryAccessCodeNotValidException } from 'src/exceptions/ministry-access-code-not-valid.exception'
+import { GetMinistryId } from 'src/decorators/ministry-id.decorator'
 
 @Controller('/ministry')
 @UseGuards(RequireAuthHeaderGuard)
@@ -35,9 +36,9 @@ export class MinistryController {
     return createdMinistry
   }
 
-  @Get('/:id')
-  async getMinistryById(@Param('id') id: string) {
-    const ministry = await this.ministryService.getById(Number(id))
+  @Get('/:ministryId')
+  async getMinistryById(@GetMinistryId() ministryId: number) {
+    const ministry = await this.ministryService.getById(ministryId)
 
     if (!ministry) {
       throw new MinistryNotFoundException()
@@ -66,11 +67,14 @@ export class MinistryController {
     return ministry
   }
 
-  @Post('/:id/exit')
-  async exitMinistry(@Param('id') id: string, @GetUser('id') userId: number) {
+  @Post('/:ministryId/exit')
+  async exitMinistry(
+    @GetMinistryId() ministryId: number,
+    @GetUser('id') userId: number,
+  ) {
     const ministry = await this.ministryService.exit({
-      ministryId: Number(id),
-      userId: userId,
+      ministryId,
+      userId,
     })
 
     return ministry

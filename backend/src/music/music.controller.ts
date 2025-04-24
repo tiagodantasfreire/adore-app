@@ -13,6 +13,7 @@ import { MusicService } from './music.service'
 import { CreateMusicDto } from './dto/create-music.dto'
 import { RequireAuthHeaderGuard } from 'src/guards/require-auth-header.guard'
 import { GetUser } from 'src/auth/decorators/get-user.decorator'
+import { GetMinistryId } from 'src/decorators/ministry-id.decorator'
 
 @Controller('/ministry/:ministryId/music')
 @UseGuards(RequireAuthHeaderGuard)
@@ -21,29 +22,29 @@ export class MusicController {
 
   @Get()
   async getMinistryMusics(
-    @Param('ministryId') ministryId: string,
+    @GetMinistryId() ministryId: number,
     @Query('singerId') singerId?: string,
   ) {
     if (singerId) {
       return this.musicService.getMinistryMusicsBySinger(
-        Number(ministryId),
+        ministryId,
         Number(singerId),
       )
     }
 
-    return this.musicService.getMinistryMusics(Number(ministryId))
+    return this.musicService.getMinistryMusics(ministryId)
   }
 
   @Post()
   async createMusic(
     @GetUser('id') userId: number,
-    @Param('ministryId') ministryId: string,
+    @GetMinistryId() ministryId: number,
     @Body() musicData: Omit<CreateMusicDto, 'userId' | 'ministryId'>,
   ) {
     return this.musicService.createMusic({
       ...musicData,
       userId,
-      ministryId: Number(ministryId),
+      ministryId,
     })
   }
 

@@ -2,6 +2,7 @@ import { Controller, Get, Param, UseGuards } from '@nestjs/common'
 
 import { RequireAuthHeaderGuard } from 'src/guards/require-auth-header.guard'
 import { SingerService } from './singer.service'
+import { GetMinistryId } from 'src/decorators/ministry-id.decorator'
 
 @Controller('/ministry/:ministryId/singers')
 @UseGuards(RequireAuthHeaderGuard)
@@ -9,8 +10,8 @@ export class SingerController {
   constructor(private readonly singerService: SingerService) {}
 
   @Get('/')
-  async getSingers(@Param('ministryId') ministryId: string) {
-    const singers = await this.singerService.getSingers(Number(ministryId))
+  async getSingers(@GetMinistryId() ministryId: number) {
+    const singers = await this.singerService.getSingers(ministryId)
     return singers
   }
 
