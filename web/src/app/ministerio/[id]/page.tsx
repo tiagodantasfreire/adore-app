@@ -1,5 +1,4 @@
 import { Ministry } from '@/components/ministry'
-import { ExitMinistryButton } from '@/components/ministry/exit-ministry-button'
 import { MinistryMusicsList } from '@/components/ministry/ministry-musics-list'
 
 export default function MinistryPage() {
@@ -8,8 +7,6 @@ export default function MinistryPage() {
       <Ministry />
 
       <MinistryMusicsList />
-
-      <ExitMinistryButton />
     </div>
   )
 }

@@ -8,9 +8,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { ExitMinistryButton } from '@/components/navigation-bar/user/exit-ministry-button'
+import { getUser } from '@/lib/session'
 
 import { LogoutButton } from './logout-button'
-import { getUser } from '@/lib/session'
 
 interface UserButtonProps {
   size: number
@@ -23,7 +24,7 @@ export async function UserButton({ size }: UserButtonProps) {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="flex flex-1 flex-col items-center gap-1">
+      <DropdownMenuTrigger className="flex flex-1 flex-col items-center gap-1 outline-none">
         <CircleUser size={size} />
         <span>Perfil</span>
       </DropdownMenuTrigger>
@@ -32,11 +33,15 @@ export async function UserButton({ size }: UserButtonProps) {
         side="bottom"
         sideOffset={10}
         collisionPadding={{ right: 12 }}
+        className="w-52"
       >
         <DropdownMenuLabel>Olá, {username}!</DropdownMenuLabel>
         <DropdownMenuSeparator />
 
         <DropdownMenuItem disabled>Minhas Preferências</DropdownMenuItem>
+        <DropdownMenuItem>
+          <ExitMinistryButton />
+        </DropdownMenuItem>
 
         <DropdownMenuSeparator />
 
