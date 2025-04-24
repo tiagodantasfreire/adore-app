@@ -4,11 +4,9 @@ import { useSearchParams } from 'next/navigation'
 
 import { Music as MusicType } from '@/types/music'
 
-import { Music } from './music'
 import { AddMusicButton } from './add-music-button'
 import { SearchMusicsInput } from './search-musics-input'
-import { SkeletonWrapper } from '@/components/ui/skeleton'
-import { MusicsSkeleton } from './musics-skeleton'
+import { MusicList as Musics } from './list'
 
 interface MusicListProps {
   musics: MusicType[] | undefined
@@ -19,14 +17,15 @@ interface MusicListProps {
 export function MusicList({
   musics,
   showAddMusicButton = true,
-  isLoading,
+  isLoading = false,
 }: MusicListProps) {
   const search = useSearchParams()
   const searchValue = search.get('musica')
 
-  const filteredMusics = musics?.filter((music) =>
-    music.name.toLowerCase().includes(searchValue?.toLowerCase() ?? ''),
-  )
+  const filteredMusics =
+    musics?.filter((music) =>
+      music.name.toLowerCase().includes(searchValue?.toLowerCase() ?? ''),
+    ) ?? []
 
   return (
     <div className="flex flex-col gap-4">
@@ -35,13 +34,7 @@ export function MusicList({
         {showAddMusicButton && <AddMusicButton />}
       </div>
 
-      <div className="flex flex-col gap-2 w-full">
-        <SkeletonWrapper isLoading={!!isLoading} skeleton={<MusicsSkeleton />}>
-          {filteredMusics?.map((music) => (
-            <Music music={music} key={music.id} />
-          ))}
-        </SkeletonWrapper>
-      </div>
+      <Musics musics={filteredMusics} isLoading={isLoading} />
     </div>
   )
 }
