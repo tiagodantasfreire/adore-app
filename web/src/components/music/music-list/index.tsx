@@ -6,6 +6,7 @@ import { Music as MusicType } from '@/types/music'
 
 import { AddMusicButton } from './add-music-button'
 import { SearchMusicsInput } from './search-musics-input'
+import { TotalMusicsText } from './total-musics-text'
 import { MusicList as Musics } from './list'
 
 interface MusicListProps {
@@ -27,12 +28,16 @@ export function MusicList({
       music.name.toLowerCase().includes(searchValue?.toLowerCase() ?? ''),
     ) ?? []
 
+  const totalMusics = filteredMusics?.length ?? 0
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-2">
         <SearchMusicsInput />
         {showAddMusicButton && <AddMusicButton />}
       </div>
+
+      <TotalMusicsText totalMusics={totalMusics} isLoading={isLoading} />
 
       <Musics musics={filteredMusics} isLoading={isLoading} />
     </div>
