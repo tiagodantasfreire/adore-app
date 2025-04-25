@@ -1,6 +1,8 @@
 # Adore App
 
 ### To Do
+- Disable exit button
+- Add user feedback while exiting
 - Musics List
   - Window virtualization
   - Search by date
