@@ -17,7 +17,9 @@ export const GetUser = createParamDecorator(
 
     try {
       const decoded = jwt.verify(token, jwtSecret) as JwtPayload
-      return data ? (decoded[data] as number) : decoded
+      const user = data ? (decoded[data] as number) : decoded
+
+      return user
     } catch (err) {
       console.error('Invalid token in @GetUser', err)
       return null

@@ -16,11 +16,11 @@ export type Session = {
   refreshToken: string
 }
 
+const isProduction = process.env.NODE_ENV === 'production'
+const domain = env.WEB_URL
+
 export async function deleteSession() {
   const cookies = await nextCookies()
-
-  const isProduction = process.env.NODE_ENV === 'production'
-  const domain = env.WEB_URL
 
   cookies.delete({
     name: 'session',
@@ -46,4 +46,42 @@ export async function getUser(): Promise<User | null> {
   if (!res.ok) return null
 
   return res.json()
+}
+
+export async function updateSession(newMinistryId: number | null) {
+  try {
+    const webUrl =
+      env.WEB_URL === 'localhost' ? 'http://localhost:3000' : env.WEB_URL
+
+    const cookies = await nextCookies()
+    const token = cookies.get('session')?.value
+
+    const res = await fetch(`${webUrl}/api/auth/update-session`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ministryId: newMinistryId,
+        token,
+      }),
+    })
+
+    if (!res.ok) {
+      throw new Error('Failed to update session', { cause: res })
+    }
+
+    const data = await res.json()
+
+    cookies.set({
+      name: 'session',
+      value: data.newToken,
+      path: '/',
+      secure: isProduction,
+      domain,
+    })
+  } catch (error) {
+    console.error('Failed to update session:', error)
+    return { success: false }
+  }
 }

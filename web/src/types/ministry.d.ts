@@ -9,7 +9,7 @@ export interface CreateMinistryResponse {
 }
 
 export type Ministry = {
-  id: string
+  id: number
   name: string
   accessCode: string
   createdBy: {

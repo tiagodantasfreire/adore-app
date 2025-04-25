@@ -5,14 +5,16 @@ import { AxiosError } from 'axios'
 
 import api, { ApiErrorResponse } from '@/lib/api'
 import { Ministry } from '@/types/ministry'
-
+import { updateSession } from '@/lib/session'
 export function useJoinMinistry() {
   const router = useRouter()
 
   return useMutation({
     mutationFn: (accessCode: string) =>
       api.post<Ministry>(`/ministry/${accessCode}/join`),
-    onSuccess: ({ data: ministry }) => {
+    onSuccess: async ({ data: ministry }) => {
+      await updateSession(ministry.id)
+
       const ministryName = ministry.name
       toast.success(`Você foi adicionado ao ministério ${ministryName}`)
       router.push(`/ministerio/${ministry.id}`)

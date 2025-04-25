@@ -1,9 +1,18 @@
-import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common'
-import { AuthService } from './auth.service'
-import { GoogleAuthGuard } from './guards/google-auth.guard'
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common'
 import { Request, Response } from 'express'
 import * as jwt from 'jsonwebtoken'
+
 import { UserService } from 'src/user/user.service'
+import { AuthService } from './auth.service'
+import { GoogleAuthGuard } from './guards/google-auth.guard'
 import { JwtUser } from './types/jwt-user'
 
 interface AuthenticatedRequest extends Request {
@@ -12,6 +21,11 @@ interface AuthenticatedRequest extends Request {
     firstName: string
     lastName: string
   }
+}
+
+type UpdateSessionBody = {
+  token: string
+  ministryId: number
 }
 
 const jwtSecret = process.env.JWT_SECRET ?? ''
@@ -49,6 +63,25 @@ export class AuthController {
       ...user,
       ...userData,
     })
+  }
+
+  @Post('/update-session')
+  updateSession(@Body() body: UpdateSessionBody) {
+    const { ministryId, token } = body
+
+    const tokenDecoded = jwt.verify(token, jwtSecret) as JwtUser
+
+    const newToken = jwt.sign(
+      {
+        ...tokenDecoded,
+        ministryId,
+      },
+      jwtSecret,
+    )
+
+    return {
+      newToken,
+    }
   }
 
   @UseGuards(GoogleAuthGuard)
