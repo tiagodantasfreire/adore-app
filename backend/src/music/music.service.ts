@@ -10,12 +10,8 @@ export class MusicService {
 
   async getMinistryMusics(ministryId: number) {
     return this.prisma.music.findMany({
-      where: {
-        ministryId: ministryId,
-      },
-      include: {
-        singer: true,
-      },
+      where: { ministryId },
+      include: { singer: true },
     })
   }
 
@@ -37,25 +33,15 @@ export class MusicService {
         tone: music.tone as Tone,
         singer: {
           connectOrCreate: {
-            where: {
-              id: music.singerId ?? 0,
-            },
+            where: { id: music.singerId ?? 0 },
             create: {
               ministryId: music.ministryId,
               name: music.singer,
             },
           },
         },
-        createdBy: {
-          connect: {
-            id: music.userId,
-          },
-        },
-        ministry: {
-          connect: {
-            id: music.ministryId,
-          },
-        },
+        createdBy: { connect: { id: music.userId } },
+        ministry: { connect: { id: music.ministryId } },
       },
     })
   }
