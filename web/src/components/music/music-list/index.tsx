@@ -23,13 +23,14 @@ export function MusicList({
   const search = useSearchParams()
   const searchValue = search.get('musica')
 
-  const filteredMusics =
-    musics?.filter((music) =>
-      music.name.toLowerCase().includes(searchValue?.toLowerCase() ?? ''),
-    ) ?? []
+  const allMusics = musics ?? []
 
-  const hasMusics = musics && musics.length > 0 && !isLoading
-  const totalMusics = filteredMusics?.length ?? 0
+  const filteredMusics = allMusics.filter((music) =>
+    music.name.toLowerCase().includes(searchValue?.toLowerCase() ?? ''),
+  )
+
+  const hasMusics = allMusics.length > 0 && !isLoading
+  const totalMusics = filteredMusics.length
 
   return (
     <div className="flex flex-col gap-2">
@@ -44,7 +45,11 @@ export function MusicList({
         </div>
       )}
 
-      <Musics musics={filteredMusics} isLoading={isLoading} />
+      <Musics
+        allMusics={allMusics}
+        filteredMusics={filteredMusics}
+        isLoading={isLoading}
+      />
     </div>
   )
 }

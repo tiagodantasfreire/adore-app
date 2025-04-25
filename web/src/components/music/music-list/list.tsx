@@ -3,27 +3,26 @@ import { Music as MusicType } from '@/types/music'
 
 import { Music } from './music'
 import { MusicsSkeleton } from './musics-skeleton'
-import { AddMusicButton } from './add-music-button'
+import { NoMusics } from './no-musics'
 
 interface MusicListProps {
-  musics: MusicType[]
+  allMusics: MusicType[]
+  filteredMusics: MusicType[]
   isLoading: boolean
 }
 
-export function MusicList({ musics, isLoading }: MusicListProps) {
+export function MusicList({
+  allMusics,
+  filteredMusics,
+  isLoading,
+}: MusicListProps) {
   return (
     <div className="flex flex-col gap-2 w-full">
       <SkeletonWrapper isLoading={isLoading} skeleton={<MusicsSkeleton />}>
-        {musics.length > 0 ? (
-          musics.map((music) => <Music music={music} key={music.id} />)
+        {allMusics.length > 0 ? (
+          filteredMusics.map((music) => <Music music={music} key={music.id} />)
         ) : (
-          <div className="flex flex-col gap-4">
-            <AddMusicButton showIcon={false} />
-
-            <p className="text-md font-semibold">
-              Nenhuma música encontrada no repertório
-            </p>
-          </div>
+          <NoMusics />
         )}
       </SkeletonWrapper>
     </div>
