@@ -28,16 +28,21 @@ export function MusicList({
       music.name.toLowerCase().includes(searchValue?.toLowerCase() ?? ''),
     ) ?? []
 
+  const hasMusics = musics && musics.length > 0 && !isLoading
   const totalMusics = filteredMusics?.length ?? 0
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex items-center gap-2">
-        <SearchMusicsInput />
-        {showAddMusicButton && <AddMusicButton />}
-      </div>
+    <div className="flex flex-col gap-2">
+      {hasMusics && (
+        <div className="flex flex-col gap-4">
+          <div className="flex items-center gap-2">
+            <SearchMusicsInput />
+            {showAddMusicButton && <AddMusicButton />}
+          </div>
 
-      <TotalMusicsText totalMusics={totalMusics} isLoading={isLoading} />
+          <TotalMusicsText totalMusics={totalMusics} isLoading={isLoading} />
+        </div>
+      )}
 
       <Musics musics={filteredMusics} isLoading={isLoading} />
     </div>

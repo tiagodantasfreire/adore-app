@@ -5,9 +5,16 @@ export function MusicsSkeleton() {
 
   return (
     <div className="flex flex-col gap-2">
-      {numberOfSkeletons.map((skeleton) => (
-        <Skeleton className="h-20 w-full" key={skeleton} />
-      ))}
+      <div className="flex flex-col gap-4">
+        <Skeleton className="h-8 w-full" />
+        <Skeleton className="h-5 w-46" />
+      </div>
+
+      <div className="flex flex-col gap-2">
+        {numberOfSkeletons.map((skeleton) => (
+          <Skeleton className="h-20 w-full" key={skeleton} />
+        ))}
+      </div>
     </div>
   )
 }
