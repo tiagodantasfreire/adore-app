@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button'
 import { useExitMinistry } from '@/services/ministry/useExitMinistry'
 
 export function ExitMinistryButton() {
-  const { mutate: exitMinistry } = useExitMinistry()
+  const { mutate: exitMinistry, isPending } = useExitMinistry()
 
   const handleExitMinistry = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation()
@@ -36,7 +36,11 @@ export function ExitMinistryButton() {
 
         <AlertDialogFooter className="grid grid-cols-2 gap-2">
           <Button variant="outline">Cancelar</Button>
-          <Button variant="destructive" onClick={handleExitMinistry}>
+          <Button
+            variant="destructive"
+            onClick={handleExitMinistry}
+            isLoading={isPending}
+          >
             Sair
           </Button>
         </AlertDialogFooter>

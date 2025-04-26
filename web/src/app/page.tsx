@@ -23,7 +23,7 @@ export default async function Login() {
   if (user?.ministryId) return redirect(`/ministerio/${user.ministryId}`)
 
   return (
-    <div className="flex flex-col gap-6 max-w-md mx-auto pt-16 px-6">
+    <div className="flex flex-col gap-6 max-w-md mx-auto pt-8 px-6">
       <AudioLines size={70} className="mb-4 mx-auto" />
 
       <div className="flex flex-col gap-2">
