@@ -48,6 +48,11 @@ export class MusicController {
     })
   }
 
+  @Get('/:musicId')
+  async getMusicById(@Param('musicId') musicId: string) {
+    return this.musicService.getMusicById(Number(musicId))
+  }
+
   @Delete('/:musicId')
   async deleteMusic(@Param('musicId') musicId: string) {
     await this.musicService.deleteMusic(Number(musicId))

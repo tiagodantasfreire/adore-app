@@ -46,6 +46,18 @@ export class MusicService {
     })
   }
 
+  async getMusicById(musicId: number) {
+    return this.prisma.music.findUnique({
+      where: { id: musicId },
+      include: {
+        createdBy: {
+          select: { firstName: true, lastName: true, email: true },
+        },
+        singer: true,
+      },
+    })
+  }
+
   async deleteMusic(musicId: number) {
     return this.prisma.music.delete({
       where: { id: musicId },

@@ -6,6 +6,7 @@ import { createContext, PropsWithChildren, use } from 'react'
 interface MinistryContextType {
   ministryId: number
   singerId?: number
+  musicId?: number
 }
 
 export const MinistryContext = createContext<MinistryContextType>({
@@ -14,13 +15,14 @@ export const MinistryContext = createContext<MinistryContextType>({
 })
 
 export function MinistryProvider({ children }: PropsWithChildren) {
-  const { id: ministryId, singerId } = useParams()
+  const { id: ministryId, singerId, musicId } = useParams()
 
   return (
     <MinistryContext.Provider
       value={{
         ministryId: Number(ministryId),
         singerId: singerId ? Number(singerId) : undefined,
+        musicId: musicId ? Number(musicId) : undefined,
       }}
     >
       {children}
