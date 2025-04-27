@@ -13,8 +13,9 @@
 - Group settings
   - Users roles
   - Manage users and singers
-- Preferencias do usuário
-  - Tema
-  - Esconder texto do tom (Lá) e mostrar só a cifra (A)
-  - Mostrar relativa menor (A/F#m)
-  - Mostrar bemol ou sustenido
+  - Edit ministry name
+- User preferences
+  - Hide key text (Lá) and show only the note
+  - Show relative key (A/F#m)
+  - Show bemol or sharp
+- Notificações de lembrete
